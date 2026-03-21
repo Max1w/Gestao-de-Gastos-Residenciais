@@ -1,0 +1,89 @@
+/* 
+    Button
+    
+    Estilizações dos botões do sistema
+*/
+
+.btn {
+  width: 100%;
+  padding: 0.88rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background-color: #1a1f2e;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #2d3450;
+}
+
+.btn:disabled {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* 
+    INPUT
+    
+    Estilizações dos campos de inserção de informações do sistema
+*/
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e4e4e4;
+  border-radius: 8px;
+  padding: 0 0.8rem;
+  gap: 0.5rem;
+}
+
+.inputWrapper:focus-within {
+  border-color: #1a1f2e;
+}
+
+.inputWrapper.error {
+  border-color: #e74c3c;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0.72rem 0;
+  background: transparent;
+}
+
+/* 
+    LABEL
+    
+    Estilizações das labels do sistema
+*/
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #666;
+}
+
+.error-text {
+  font-size: 0.75rem;
+  color: #e74c3c;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
