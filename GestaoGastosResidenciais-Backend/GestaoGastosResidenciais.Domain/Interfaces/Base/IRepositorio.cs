@@ -5,10 +5,10 @@ namespace GestaoGastosResidenciais.Domain.Interfaces.Base
     public interface IRepositorio<T>
 		where T : EntidadeBase
 	{
-		T? BuscarPorId(int id);
-		List<T> BuscarTudo();
-		T Adicionar(T entidade);
-		T Atualizar(T entidade);
-		void Deletar(int id);
+		Task<T?> BuscarPorId(int id);
+		IQueryable<T> Consultar();
+		Task<T> Adicionar(T entidade);
+		Task<T> Atualizar(T entidade);
+		Task Deletar(int id);
     }
 }

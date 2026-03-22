@@ -17,38 +17,38 @@ namespace GestaoGastosResidenciais.Infraestrutura.Repositorios.Base
 			_dbSet = contexto.Set<T>();
 		}
 
-		public List<T> BuscarTudo()
-		   => _dbSet.ToList();
+		public IQueryable<T> Consultar()
+		   => _dbSet.AsQueryable();
 
-		public T? BuscarPorId(int id)
-		    => _dbSet.Find(id);
+		public async Task<T?> BuscarPorId(int id)
+		    => await _dbSet.FindAsync(id);
 
-		public T Adicionar(T entidade)
+		public async Task<T> Adicionar(T entidade)
         {
             _contexto.Add(entidade);
-            _contexto.SaveChanges();
+			await _contexto.SaveChangesAsync();
             return entidade;
         }
 
-        public T Atualizar(T entidade)
+        public async Task<T> Atualizar(T entidade)
         {
-            var existe = BuscarPorId(entidade.Id);
+            var existe = await BuscarPorId(entidade.Id);
 			if (existe == null)
 				throw new KeyNotFoundException($"O registro com ID {entidade.Id} não foi encontrado.");
 
             _contexto.Entry(existe).CurrentValues.SetValues(entidade);
-            _contexto.SaveChanges(); 
+			await _contexto.SaveChangesAsync(); 
             return entidade;
 		}
 
-		public void Deletar(int id)
+		public async Task Deletar(int id)
         {
-			var existe = BuscarPorId(id);
+			var existe = await BuscarPorId(id);
 			if (existe == null)
 				throw new KeyNotFoundException($"O registro com ID {id} não foi encontrado.");
 
 			_contexto.Remove(existe);
-			_contexto.SaveChanges();
+			await _contexto.SaveChangesAsync();
 			return;
 		}
     }
