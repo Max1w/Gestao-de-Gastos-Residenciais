@@ -10,7 +10,7 @@ export function PrivateRoute({ children }: Propriedades) {
     const { estaLogado } = usarAutenticacao();
 
     if (!estaLogado) {
-        return <Navigate to="/Login" replace />
+        return <Navigate to="/login" replace />
     }
 
     return <>{children}</>;

@@ -2,6 +2,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:5212/api",
+  withCredentials: true,
 });
 
 export const Navegador = {

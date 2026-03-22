@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Input from "../../components/Input/Input";
+import { LoginService } from "../../services/loginServices";
+import type { LoginRequest, LoginResponse } from "../../types";
+import { useNavigate } from "react-router-dom";
+import { usarAutenticacao } from "../../contexts/authContext";
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
@@ -83,6 +87,9 @@ export function Login() {
     const [erro, setErro]       = useState("");
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();     
+    const { login } = usarAutenticacao();
+
     function handleLogin() {
         setErro("");
 
@@ -91,6 +98,20 @@ export function Login() {
             return;
         }
         setLoading(true);
+
+        const credenciais: LoginRequest = { usuario, senha };
+
+        LoginService.logar(credenciais)
+          .then((usuario: LoginResponse) => {
+            login(usuario);
+            navigate("/visaoGeral");
+          })
+          .catch(() => {
+            setErro("Usuário ou senha inválidos.");
+          })
+          .finally(() => {
+            setLoading(false);
+          });
     }
 
     return (

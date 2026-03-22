@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import type { Usuario } from "../types"
+import type { LoginResponse } from "../types"
 
 type AuthContextType = {
-    usuario: Usuario | null;
-    login: (usuario: Usuario) 
+    usuario: LoginResponse | null;
+    login: (usuario: LoginResponse) 
         => void
     logout: () 
         => void;
@@ -13,9 +13,9 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function ProvedorAutenticacao({ children }: { children: ReactNode }) {
-    const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [usuario, setUsuario] = useState<LoginResponse | null>(null);
 
-    function login(usuario: Usuario) {
+    function login(usuario: LoginResponse) {
         setUsuario(usuario);
     }
 
