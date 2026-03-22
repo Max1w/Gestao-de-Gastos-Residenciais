@@ -4,6 +4,9 @@ import { LoginService } from "../../services/loginServices";
 import type { LoginRequest, LoginResponse } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { usarAutenticacao } from "../../contexts/authContext";
+import Button from "../../components/Button/button";
+import { UsuarioService } from "../../services/usuarioServices";
+
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
@@ -86,9 +89,34 @@ export function Login() {
     const [senha, setSenha]     = useState("");
     const [erro, setErro]       = useState("");
     const [loading, setLoading] = useState(false);
+    const [modalAberto, setModalAberto] = useState(false);
+    const [cadastro, setCadastro] = useState({ nome: "", senha: "" });
 
     const navigate = useNavigate();     
     const { login } = usarAutenticacao();
+
+    const abrirModal = () => setModalAberto(true);
+
+    const fecharModal = () => {
+      setModalAberto(false);
+      setCadastro({ nome: "", senha: "" });
+    };
+
+    const salvarCadastro = () => {
+        if (!cadastro.nome || !cadastro.senha) {
+          alert("Preencha todos os campos.");
+          return;
+        }
+
+        const credenciais: LoginRequest = {
+          usuario: cadastro.nome,
+          senha: cadastro.senha
+        }
+
+        UsuarioService.cadastrar(credenciais);
+
+        fecharModal();
+      };
 
     function handleLogin() {
         setErro("");
@@ -156,10 +184,24 @@ export function Login() {
                           }
                         />
                     </div>
+                    
+                    <Button
+                        onClick={handleLogin}
+                        disabled={loading}
+                        loading={loading}
+                        className="botao"
+                    >
+                        Entrar
+                    </Button>
 
-                    <button className="botao" onClick={handleLogin} disabled={loading}>
-                        {loading ? "Entrando..." : "Entrar"}
-                    </button>
+                    <div className="mt-8 space-y-3">
+                        <Button
+                            onClick={abrirModal}
+                            className="block w-full text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                            Cadastrar usuário
+                        </Button>
+                    </div>
 
                     {erro && (
                         <div className="erroBox">
@@ -170,8 +212,129 @@ export function Login() {
                         </div>
                     )}
 
+                    {modalAberto && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 space-y-6">
+
+                            <h2 className="text-xl font-semibold text-gray-800 text-center">
+                              Cadastrar usuário
+                            </h2>
+
+                            <div className="space-y-4">
+                              <div>
+                                <Input
+                                  label="Nome"
+                                  type="text"
+                                  value={cadastro.nome}
+                                  onChange={(e: any) => setCadastro({ ...cadastro, nome: e.target.value })}
+                                  onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
+                                  iconeEsquerda={
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
+                                      <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
+                                    </svg>
+                                  }
+                                />
+                              </div>
+
+                              <div>
+                                <Input
+                                  label="SENHA"
+                                  type="password"
+                                  value={cadastro.senha}
+                                  onChange={(e: any) => setCadastro({ ...cadastro, senha: e.target.value })}
+                                  onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
+                                  iconeEsquerda={
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
+                                      <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
+                                    </svg>
+                                  }
+                                />
+                              </div>
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                              <Button
+                                onClick={salvarCadastro}
+                                variant="primary"
+                                className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                              >
+                                Salvar
+                              </Button>
+
+                              <Button
+                                onClick={fecharModal}
+                                variant="primary"
+                                className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                              >
+                                fechar
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                 </div>
             </div>
+
+            {modalAberto && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 space-y-6">
+
+                  <h2 className="text-xl font-semibold text-gray-800 text-center">
+                    Cadastrar usuário
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Input
+                        label="Nome"
+                        type="text"
+                        value={cadastro.nome}
+                        onChange={(e: any) => setCadastro({ ...cadastro, nome: e.target.value })}
+                        onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
+                        iconeEsquerda={
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
+                            <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
+                          </svg>
+                        }
+                      />
+                    </div>
+
+                    <div>
+                      <Input
+                        label="SENHA"
+                        type="password"
+                        value={cadastro.senha}
+                        onChange={(e: any) => setCadastro({ ...cadastro, senha: e.target.value })}
+                        onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
+                        iconeEsquerda={
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
+                            <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
+                          </svg>
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <Button
+                      onClick={salvarCadastro}
+                      variant="primary"
+                      className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      Salvar
+                    </Button>
+
+                    <Button
+                      onClick={fecharModal}
+                      variant="primary"
+                      className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      fechar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
         </>
     );
 }

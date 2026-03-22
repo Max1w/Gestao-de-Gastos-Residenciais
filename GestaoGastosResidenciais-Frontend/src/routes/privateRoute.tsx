@@ -1,17 +1,12 @@
-import type { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { usarAutenticacao } from "../contexts/authContext";
 
-type Propriedades = {
-    children: ReactNode;
-}
-
-export function PrivateRoute({ children }: Propriedades) {
+export function PrivateRoute() {
     const { estaLogado } = usarAutenticacao();
 
     if (!estaLogado) {
         return <Navigate to="/login" replace />
     }
 
-    return <>{children}</>;
+    return <Outlet />;
 }

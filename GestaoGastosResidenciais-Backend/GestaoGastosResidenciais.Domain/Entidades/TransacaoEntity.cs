@@ -2,7 +2,7 @@
 
 namespace GestaoGastosResidenciais.Domain.Entidades
 {
-    public class Transacao : EntidadeBase
+    public class TransacaoEntity : EntidadeBase
     {
 		#region Campos
 		public string Descricao { get; set; }
@@ -17,8 +17,8 @@ namespace GestaoGastosResidenciais.Domain.Entidades
 		#endregion
 
 		#region Navegação
-		public Categoria Categoria { get; set; } = null!;
-		public Pessoa Pessoa { get; set; } = null!;
+		public CategoriaEntity Categoria { get; set; } = null!;
+		public PessoaEntity Pessoa { get; set; } = null!;
 		#endregion
 	}
 }

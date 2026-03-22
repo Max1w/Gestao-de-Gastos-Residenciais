@@ -10,5 +10,8 @@ export type LoginRequest = {
 };
 
 export type LoginResponse = {
-  usuario: string;
+  nomeDoUsuario: string;
+  codigoDoUsuario: number;
+  token: string;
+  tokenDeAtualizacao: string;
 };

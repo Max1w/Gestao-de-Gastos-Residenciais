@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 namespace GestaoGastosResidenciais.Aplicacao.Services.Seguranca
 {
     public class SegurancaServico(
-        IRepositorio<Usuario> usuarioRepositorio,
+        IRepositorio<UsuarioEntity> usuarioRepositorio,
 		IHashSenha hashSenha,
 		IServicoToken servicoToken) : ISegurancaServico
     {
         public async Task<AutenticacaoResposta> Logar(LoginRequisicao credenciais)
         {
 			var usuario = await usuarioRepositorio.Consultar()
-				.FirstOrDefaultAsync(u => u.Username == credenciais.Username);
+				.FirstOrDefaultAsync(u => u.Username == credenciais.Usuario);
 
-			if ((usuario == null) || (!hashSenha.VerificarSenha(credenciais.Senha, usuario.SenhaHash)))
+			if ((usuario == null) || (!hashSenha.VerificarSenha(credenciais.Senha, usuario.SenhaHash!)))
 				throw new ArgumentException("Usuário ou senha inválidos.");
 
 			var token = servicoToken.GerarToken(usuario);

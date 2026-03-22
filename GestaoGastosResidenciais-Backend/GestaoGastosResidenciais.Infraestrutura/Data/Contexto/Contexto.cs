@@ -6,10 +6,10 @@ namespace GestaoGastosResidenciais.Infraestrutura.Data.Contexto
     public class Contexto(DbContextOptions<Contexto> options)
         : DbContext(options)
     {
-        public DbSet<Usuario> Usuarios => Set<Usuario>();
-        public DbSet<Categoria> Categorias => Set<Categoria>();
-        public DbSet<Pessoa> Pessoas => Set<Pessoa>();
-        public DbSet<Transacao> Transacoes => Set<Transacao>();
+        public DbSet<UsuarioEntity> Usuarios => Set<UsuarioEntity>();
+        public DbSet<CategoriaEntity> Categorias => Set<CategoriaEntity>();
+        public DbSet<PessoaEntity> Pessoas => Set<PessoaEntity>();
+        public DbSet<TransacaoEntity> Transacoes => Set<TransacaoEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

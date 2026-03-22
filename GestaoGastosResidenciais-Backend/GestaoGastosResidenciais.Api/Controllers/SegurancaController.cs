@@ -1,11 +1,12 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Seguranca;
 using GestaoGastosResidenciais.Aplicacao.Services.Seguranca.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Formats.Asn1;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
-	[Route("api/auth")]
+	[Route("api/seguranca")]
 	[ApiController]
 	public class SegurancaController : PadraoApiController
 	{

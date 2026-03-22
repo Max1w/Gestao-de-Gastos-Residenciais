@@ -11,7 +11,7 @@ namespace GestaoGastosResidenciais.Infraestrutura.Seguranca
 {
     public class ServicoToken(IConfiguration configuration) : IServicoToken
 	{
-        public string GerarToken(Usuario usuario)
+        public string GerarToken(UsuarioEntity usuario)
         {
             var claims = new[]
             {

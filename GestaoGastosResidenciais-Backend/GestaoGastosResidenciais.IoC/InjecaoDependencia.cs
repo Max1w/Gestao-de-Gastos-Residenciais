@@ -14,6 +14,7 @@ namespace GestaoGastosResidenciais.IoC
 			services.AddAplicacao();
 			services.AddRepositios();
 			services.AddSeguranca(configuration);
+            services.AddPoliticaCors();
 			return services;
 		}
     }

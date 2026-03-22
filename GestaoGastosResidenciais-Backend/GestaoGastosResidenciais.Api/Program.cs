@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddInjecaoDependencia(builder.Configuration);
 
@@ -17,7 +15,9 @@ using (var scope = app.Services.CreateScope())
 	db.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseCors("GestaoGastosFront");
 
 app.UseAuthorization();
 

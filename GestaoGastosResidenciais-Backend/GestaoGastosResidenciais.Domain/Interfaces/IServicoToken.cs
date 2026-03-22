@@ -4,7 +4,7 @@ namespace GestaoGastosResidenciais.Domain.Interfaces
 {
     public interface IServicoToken
     {
-		string GerarToken(Usuario usuario);
+		string GerarToken(UsuarioEntity usuario);
 		string GerarTokenDeAtualizacao();
 	}
 }

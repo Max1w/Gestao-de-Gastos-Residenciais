@@ -2,7 +2,7 @@
 
 namespace GestaoGastosResidenciais.Domain.Entidades
 {
-    public class Pessoa : EntidadeBase
+    public class PessoaEntity : EntidadeBase
 	{
 
 		#region Campos
@@ -11,7 +11,7 @@ namespace GestaoGastosResidenciais.Domain.Entidades
 		#endregion
 
 		#region Navegação
-		public ICollection<Transacao> Transacoes { get; set; } = new List<Transacao>();
+		public ICollection<TransacaoEntity> Transacoes { get; set; } = new List<TransacaoEntity>();
 		#endregion
 	}
 }

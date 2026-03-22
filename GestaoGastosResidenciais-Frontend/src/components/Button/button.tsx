@@ -4,7 +4,7 @@ type PropriedadesDoButton = {
   disabled?: boolean;
   loading?: boolean;
   type?: "button";
-  variant?: "primary";
+  variant?: "primary" | "secondary" | "danger" | "warning";
   className?: string;
 };
 

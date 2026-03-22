@@ -1,5 +1,7 @@
 export function VisaoGeral() {
-    return (
-        <label>Bem-Vindo</label>
-    )
+  return (
+    <div>
+      <h1>Visão Geral</h1>
+    </div>
+  );
 }

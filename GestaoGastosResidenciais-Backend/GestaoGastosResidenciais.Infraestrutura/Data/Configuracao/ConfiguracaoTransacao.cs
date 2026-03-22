@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Data.Configuracao
 {
-    internal class ConfiguracaoTransacao : ConfiguracaoBase<Transacao>
+    internal class ConfiguracaoTransacao : ConfiguracaoBase<TransacaoEntity>
     {
         protected override void ConfigurarEntidades(
-            EntityTypeBuilder<Transacao> builder)
+            EntityTypeBuilder<TransacaoEntity> builder)
         {
             builder.ToTable("transacoes");
 

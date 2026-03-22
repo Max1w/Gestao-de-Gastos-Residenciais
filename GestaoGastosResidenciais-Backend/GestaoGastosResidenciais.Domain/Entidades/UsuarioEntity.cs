@@ -2,11 +2,10 @@
 
 namespace GestaoGastosResidenciais.Domain.Entidades
 {
-    public class Usuario : EntidadeBase
+	public class UsuarioEntity : EntidadeBase
 	{
 
 		#region Campos
-		public int Id { get; set; }
 
 		public string? Username { get; set; }
 

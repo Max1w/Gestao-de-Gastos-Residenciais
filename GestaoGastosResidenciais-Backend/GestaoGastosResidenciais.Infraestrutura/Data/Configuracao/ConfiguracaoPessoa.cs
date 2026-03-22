@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Data.Configuracao
 {
-    public class ConfiguracaoPessoa : ConfiguracaoBase<Pessoa>
+    public class ConfiguracaoPessoa : ConfiguracaoBase<PessoaEntity>
     {
-        protected override void ConfigurarEntidades(EntityTypeBuilder<Pessoa> builder)
+        protected override void ConfigurarEntidades(EntityTypeBuilder<PessoaEntity> builder)
         {
             builder.ToTable("pessoas");
 
