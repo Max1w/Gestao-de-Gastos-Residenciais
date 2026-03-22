@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="GestaoGastosResidenciais.Api/GestaoGastosResidenciais.Api.csproj" />
+  <Project Path="GestaoGastosResidenciais.Aplicacao/GestaoGastosResidenciais.Aplicacao.csproj" />
+  <Project Path="GestaoGastosResidenciais.Domain/GestaoGastosResidenciais.Domain.csproj" />
+  <Project Path="GestaoGastosResidenciais.Infraestrutura/GestaoGastosResidenciais.Infraestrutura.csproj" />
+  <Project Path="GestaoGastosResidenciais.IoC/GestaoGastosResidenciais.IoC.csproj" />
+</Solution>
