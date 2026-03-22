@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GestaoGastosResidenciais.Domain\GestaoGastosResidenciais.Domain.csproj" />
+    <ProjectReference Include="..\GestaoGastosResidenciais.Infraestrutura\GestaoGastosResidenciais.Infraestrutura.csproj" />
+  </ItemGroup>
+
 </Project>
