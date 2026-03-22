@@ -13,6 +13,7 @@ namespace GestaoGastosResidenciais.IoC
             services.AddInfraestrutura(configuration);
 			services.AddAplicacao();
 			services.AddRepositios();
+			services.AddSeguranca(configuration);
 			return services;
 		}
     }
