@@ -16,7 +16,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			=>_servicoSeguranca = servicoSeguranca;
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Logar([FromBody] LoginRequisicao requisicao)
+		public async Task<IActionResult> Logar([FromBody] LoginDTO requisicao)
 		{
 			AutenticacaoResposta? resposta;
 			try
@@ -52,7 +52,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 		}
 
 		[HttpPost("refresh")]
-		public async Task<IActionResult> Renovar([FromBody] RenovarTokenRequisicao requisicao)
+		public async Task<IActionResult> Renovar([FromBody] RenovarTokenDTO requisicao)
 		{
 			var resposta = await _servicoSeguranca.RenovarToken(requisicao.TokenDeAtualizacao);
 

@@ -1,13 +1,13 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "../pages/Login";
 import {PrivateRoute } from "./privateRoute";
 import { VisaoGeral } from "../pages/VisaoGeral";
 import { Transacao } from "../pages/Transacoes";
 import { Categoria } from "../pages/Categorias";
 import { Pessoa } from "../pages/Pessoas";
-import { TotalPorCategoria } from "../pages/TotaisPorCategoria";
-import { TotalPorPessoa } from "../pages/TotaisPorPessoa";
 import { Layout } from "../components/Layout/layout";
+import { TotaisPorCategoria } from "../pages/TotaisPorCategoria";
+import { TotaisPorPessoa } from "../pages/TotaisPorPessoa";
 
 export function AppRoutes() {
     return (
@@ -23,8 +23,8 @@ export function AppRoutes() {
                         <Route path="/transacoes"         element={<Transacao />} />
                         <Route path="/categorias"         element={<Categoria />} />
                         <Route path="/pessoas"            element={<Pessoa />} />
-                        <Route path="/totaisPorCategoria" element={<TotalPorCategoria />} />
-                        <Route path="/totaisPorPessoa"    element={<TotalPorPessoa />} />
+                        <Route path="/totaisPorCategoria" element={<TotaisPorCategoria />} />
+                        <Route path="/totaisPorPessoa"    element={<TotaisPorPessoa />} />
                     </Route>
 
                 </Route>

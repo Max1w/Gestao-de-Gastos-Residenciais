@@ -1,5 +1,6 @@
 type PropriedadesDoButton = {
   children: React.ReactNode;
+  title?: string
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
@@ -15,10 +16,12 @@ export default function Button({
     loading = false,
     type = "button",
     variant = "primary",
-    className=""
+    className="",
+    title=""
 }: PropriedadesDoButton){
     return (
         <button
+            title={title}
             type={type}
             onClick={onClick}
             disabled={disabled}

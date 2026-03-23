@@ -51,8 +51,6 @@ function ItemNavegacao({ rotulo, Icone, caminho }: ItemMenu) {
     <NavLink to={caminho} className={({ isActive }) => `nav-item ${isActive ? "nav-item--ativo" : ""}`}>
       {({ isActive }) => (
         <>
-          {isActive && <span className="nav-item__indicador" />}
-
           <span className="nav-item__conteudo">
             <Icone size={20} className="nav-item__icone" />
             <span className="nav-item__rotulo">{rotulo}</span>
@@ -79,188 +77,84 @@ export function Layout() {
   return (
     <>
       <style>{`
-        /* Reset básico */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', 'DM Sans', sans-serif; background: #f8fafc; }
+        body { font-family: sans-serif; background: #f5f6f8; }
 
-        /* ── Shell ── */
-        .shell {
-          display: grid;
-          grid-template-columns: 288px 1fr;
-          min-height: 100vh;
-        }
+        .shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 
-        /* ── Sidebar ── */
         .sidebar {
-          width: 288px;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          height: 100vh;
-          border-right: 1px solid rgba(226, 232, 240, 0.5);
+          background: #fff;
+          border-right: 1px solid #e5e7eb;
           display: flex;
           flex-direction: column;
-          padding: 24px 0;
-          overflow-y: auto;
+          padding: 1.25rem 0;
+          height: 100vh;
           position: sticky;
           top: 0;
-          z-index: 20;
+          overflow-y: auto;
         }
 
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb {
-          background: #e2e8f0;
-          border-radius: 10px;
-        }
-
-        /* ── Seção ── */
-        .secao {
-          margin-bottom: 32px;
-          padding: 0 24px;
-        }
+        .secao { margin-bottom: 1.5rem; padding: 0 1rem; }
 
         .secao__titulo {
           font-size: 11px;
-          font-weight: 700;
-          color: #94a3b8;
+          font-weight: 500;
+          color: #9ca3af;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin-bottom: 16px;
+          letter-spacing: 0.08em;
+          margin-bottom: 0.5rem;
         }
 
-        .secao__lista {
-          display: flex;
-          flex-direction: column;
-          gap: 2px;
-          margin: 0 -8px;
-        }
+        .secao__lista { display: flex; flex-direction: column; gap: 2px; }
 
-        /* ── Item de navegação ── */
         .nav-item {
-          width: 100%;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 10px 12px;
-          border-radius: 10px;
-          position: relative;
-          color: #64748b;
+          padding: 8px 10px;
+          border-radius: 6px;
           text-decoration: none;
-          transition: background 0.15s, color 0.15s;
+          color: #6b7280;
+          font-size: 13px;
+          position: relative;
+          transition: background 0.12s, color 0.12s;
         }
 
-        .nav-item:hover {
-          background: #f8fafc;
-          color: #1e293b;
-        }
+        .nav-item:hover { background: #f5f6f8; color: #111827; }
 
-        .nav-item--ativo {
-          background: #f8fafc;
-          color: #1e293b;
-        }
+        .nav-item--ativo { background: #f1f3fb; color: #3b4fd5; }
 
-        .nav-item__indicador {
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 6px;
-          height: 24px;
-          background: #6366f1;
-          border-radius: 0 4px 4px 0;
-        }
+        .nav-item__conteudo { display: flex; align-items: center; gap: 10px; }
 
-        .nav-item__conteudo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
+        .nav-item__icone { color: #9ca3af; }
 
-        .nav-item__icone {
-          flex-shrink: 0;
-          color: #94a3b8;
-          transition: color 0.15s;
-        }
+        .nav-item__rotulo { font-size: 13px; }
 
-        .nav-item--ativo .nav-item__icone,
-        .nav-item:hover .nav-item__icone {
-          color: #6366f1;
-        }
-
-        .nav-item__rotulo {
-          font-size: 14px;
-          font-weight: 600;
-          letter-spacing: -0.01em;
-          transition: color 0.15s;
-        }
-
-        .nav-item--ativo .nav-item__rotulo {
-          color: #1e293b;
-        }
-
-        .nav-item__seta {
-          color: #6366f1;
-          flex-shrink: 0;
-        }
-
-        /* ── Rodapé ── */
         .sidebar__rodape {
           margin-top: auto;
-          padding: 16px 24px 0;
-          border-top: 1px solid #f1f5f9;
-        }
-
-        .usuario {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 12px;
-          margin-bottom: 4px;
-        }
-
-        .usuario__avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #3b82f6, #6366f1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 13px;
-          font-weight: 700;
-          color: white;
-          flex-shrink: 0;
+          padding: 1rem 1rem 0;
+          border-top: 1px solid #f3f4f6;
         }
 
         .botao-sair {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           width: 100%;
-          padding: 10px 12px;
-          border-radius: 10px;
+          padding: 8px 10px;
+          border-radius: 6px;
           border: none;
           background: none;
-          color: #94a3b8;
-          font-size: 14px;
-          font-weight: 600;
+          color: #9ca3af;
+          font-size: 13px;
           font-family: inherit;
           cursor: pointer;
-          text-align: left;
-          transition: background 0.15s, color 0.15s;
+          transition: background 0.12s, color 0.12s;
         }
 
-        .botao-sair:hover {
-          background: #fef2f2;
-          color: #ef4444;
-        }
+        .botao-sair:hover { background: #fef2f2; color: #dc2626; }
 
-        /* ── Conteúdo principal ── */
-        .conteudo {
-          padding: 40px 48px;
-          overflow-y: auto;
-          color: #1e293b;
-        }
+        .conteudo { padding: 2rem 2.5rem; overflow-y: auto; }
       `}</style>
 
       <div className="shell">

@@ -12,7 +12,7 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Seguranca
 		IHashSenha hashSenha,
 		IServicoToken servicoToken) : ISegurancaServico
     {
-        public async Task<AutenticacaoResposta> Logar(LoginRequisicao credenciais)
+        public async Task<AutenticacaoResposta> Logar(LoginDTO credenciais)
         {
 			var usuario = await usuarioRepositorio.Consultar()
 				.FirstOrDefaultAsync(u => u.Username == credenciais.Usuario);

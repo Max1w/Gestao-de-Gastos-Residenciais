@@ -2,7 +2,7 @@
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Versao
 {
-    public class VersaoService : IVersaoService
+    public class VersaoServico : IVersaoServico
 	{
 		public string Consultar(object item, string projeto)
 		{

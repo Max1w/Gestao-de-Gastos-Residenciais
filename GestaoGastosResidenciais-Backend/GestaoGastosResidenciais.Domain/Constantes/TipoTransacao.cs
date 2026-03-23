@@ -2,7 +2,7 @@
 {
     public enum TipoTransacao
     {
-        Despesas = 1,
+        Despesa = 1,
         Receita = 2,
     }
 }

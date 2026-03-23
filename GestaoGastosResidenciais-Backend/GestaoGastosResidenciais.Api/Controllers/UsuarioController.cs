@@ -8,14 +8,14 @@ namespace GestaoGastosResidenciais.Api.Controllers
 	[ApiController]
 	public class UsuarioController : PadraoApiController
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioServico _usuarioService;
 
-		public UsuarioController(IUsuarioService usuarioService)
+		public UsuarioController(IUsuarioServico usuarioService)
 			=> _usuarioService = usuarioService;
 
 		[HttpPost]
 		[Route("cadastrar")]
-		public async Task<IActionResult> Cadastrar(UsuarioRequisicao usuario)
+		public async Task<IActionResult> Cadastrar(UsuarioDTO usuario)
 		{
 			try
 			{

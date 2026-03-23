@@ -9,9 +9,9 @@ namespace GestaoGastosResidenciais.Api.Controllers
 	[ApiController]
 	public class VersaoController : PadraoApiController
 	{
-		private IVersaoService _versao;
+		private IVersaoServico _versao;
 
-		public VersaoController(IVersaoService versao)
+		public VersaoController(IVersaoServico versao)
 		{
 			_versao = versao;
 		}

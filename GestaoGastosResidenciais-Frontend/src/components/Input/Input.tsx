@@ -1,3 +1,5 @@
+import React from "react";
+
 type PropriedadesDoInput = {
   label?: string;
   error?: string;

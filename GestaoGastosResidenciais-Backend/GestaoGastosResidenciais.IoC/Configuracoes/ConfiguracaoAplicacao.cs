@@ -8,7 +8,7 @@ namespace GestaoGastosResidenciais.IoC.Configuracoes
 		public static IServiceCollection AddAplicacao(
 			this IServiceCollection services)
 		{
-			typeof(VersaoService).Assembly.GetExportedTypes()
+			typeof(VersaoServico).Assembly.GetExportedTypes()
 				.Where(tipo => tipo.IsClass && !tipo.IsAbstract && tipo.GetInterfaces().Any())
 				.ToList()
 				.ForEach(tipo =>
