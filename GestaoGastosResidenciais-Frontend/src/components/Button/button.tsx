@@ -1,3 +1,7 @@
+// ─── Function de botão genérica ──────────────────────────────────────────────────────────
+// Aqui centralizo os botões utilizado no sistema inteiro.
+// Facilita na manutenção do projeto
+
 type PropriedadesDoButton = {
   children: React.ReactNode;
   title?: string

@@ -22,6 +22,9 @@ interface SecaoMenu {
   itens: ItemMenu[];
 }
 
+// ─── Sessões ───────────────────────────────────────────────────────────────────
+// Aqui fica as abas de navegação de cada página
+
 const SECOES: SecaoMenu[] = [
   {
     titulo: "Geral",
@@ -64,6 +67,8 @@ function ItemNavegacao({ rotulo, Icone, caminho }: ItemMenu) {
 }
 
 // ─── Layout ───────────────────────────────────────────────────────────────────
+// Aqui fica toda a parte de layout do sistema
+// A construção da sidebar e a estilização dela
 
 export function Layout() {
   const { logout } = usarAutenticacao();

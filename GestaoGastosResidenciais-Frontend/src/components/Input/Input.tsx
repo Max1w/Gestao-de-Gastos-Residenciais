@@ -1,3 +1,7 @@
+// ─── Function de campo de input genérica ────────────────────────────────────────
+// Aqui centralizo os campos utilizado no sistema inteiro.
+// Facilita na manutenção do projeto
+
 import React from "react";
 
 type PropriedadesDoInput = {
