@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Data.Configuracao
 {
-    public class ConfiguracaoPessoa : ConfiguracaoBase<PessoaEntity>
+	// ─── ConfiguracaoPessoa ───────────────────────────────────────────────────────────────────
+	// Mapeamento da entidade Pessoa para a tabela "pessoas"
+
+	public class ConfiguracaoPessoa : ConfiguracaoBase<PessoaEntity>
     {
         protected override void ConfigurarEntidades(EntityTypeBuilder<PessoaEntity> builder)
         {

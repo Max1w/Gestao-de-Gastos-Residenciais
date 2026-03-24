@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Data.Contexto
 {
-    public class Contexto(DbContextOptions<Contexto> options)
+	// ─── Contexto ───────────────────────────────────────────────────────────────────
+	// Contexto principal do Entity Framework, expõe as tabelas do banco e aplica as configurações
+
+	public class Contexto(DbContextOptions<Contexto> options)
         : DbContext(options)
     {
         public DbSet<UsuarioEntity> Usuarios => Set<UsuarioEntity>();
@@ -13,7 +16,8 @@ namespace GestaoGastosResidenciais.Infraestrutura.Data.Contexto
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Contexto).Assembly);
+			// Aplica automaticamente todas as configurações do assembly (ConfiguracaoBase e suas filhas)
+			modelBuilder.ApplyConfigurationsFromAssembly(typeof(Contexto).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -5,7 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Repositorios.Base
 {
-    public class Repositorio<T> : IRepositorio<T>
+	// ─── Repositorio ───────────────────────────────────────────────────────────────────
+	// Repositório genérico base para todas as entidades do sistema
+	// Implementa as operações CRUD reutilizáveis via Entity Framework
+
+	public class Repositorio<T> : IRepositorio<T>
         where T : EntidadeBase
     {
         private readonly Contexto _contexto;

@@ -4,14 +4,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Seguranca
 {
-    public class ServicoToken(IConfiguration configuration) : IServicoToken
+	// ─── ServicoToken ───────────────────────────────────────────────────────────────────
+	// Responsável por gerar tokens JWT e tokens de atualização
+
+	public class ServicoToken(IConfiguration configuration) : IServicoToken
 	{
-        public string GerarToken(UsuarioEntity usuario)
+		// Gera um token JWT com id e username do usuário, válido por 1 hora
+
+		public string GerarToken(UsuarioEntity usuario)
         {
             var claims = new[]
             {

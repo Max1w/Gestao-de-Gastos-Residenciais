@@ -4,7 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GestaoGastosResidenciais.Infraestrutura.Data.Configuracao.Base
 {
-    public abstract class ConfiguracaoBase<T>
+	// ─── ConfiguracaoBase ───────────────────────────────────────────────────────────────────
+	// Classe base para todas as configurações do Entity Framework
+	// Define a chave primária e o Id com geração automática para todas as entidades
+
+	public abstract class ConfiguracaoBase<T>
         : IEntityTypeConfiguration<T> where T : EntidadeBase
     {
         public void Configure(
@@ -18,6 +22,7 @@ namespace GestaoGastosResidenciais.Infraestrutura.Data.Configuracao.Base
 			ConfigurarEntidades(builder);
 		}
 
+		// Implementado em cada configuração específica para mapear as propriedades da entidade
 		protected abstract void ConfigurarEntidades(
 			EntityTypeBuilder<T> builder);
 	}    
