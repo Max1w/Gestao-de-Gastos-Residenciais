@@ -1,12 +1,17 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Categoria;
 using GestaoGastosResidenciais.Aplicacao.DTOs.Pessoa;
 using GestaoGastosResidenciais.Aplicacao.Services.Pessoa.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
-    [Route("api/pessoa")]
-    [ApiController]
+	// ─── PessoaController ───────────────────────────────────────────────────────────────────
+	// Controller responsável pelo CRUD de pessoas
+
+	[Route("api/pessoa")]
+	[Authorize]
+	[ApiController]
     public class PessoaController : PadraoApiController
 	{
 		private readonly IPessoaServico _pessoa;
@@ -14,6 +19,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 		public PessoaController(IPessoaServico pessoa)
 			=> _pessoa = pessoa;
 
+		// Cadastra uma nova pessoa e retorna os dados cadastrados
 		[HttpPost]
 		[Route("cadastrar")]
 		public async Task<IActionResult> Cadastrar([FromBody] PessoaDTO pessoa)
@@ -33,6 +39,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Atualiza uma pessoa existente e retorna os dados atualizados
 		[HttpPut]
 		[Route("alterar")]
 		public async Task<IActionResult> Alterar([FromBody] PessoaDTO pessoa)
@@ -52,6 +59,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Retorna todas as pessoas cadastradas
 		[HttpGet]
 		[Route("consultar")]
 		public async Task<IActionResult> Consultar()
@@ -67,6 +75,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Remove uma pessoa pelo id (também remove as transações vinculadas)
 		[HttpDelete]
 		[Route("remover/{id}")]
 		public async Task<IActionResult> Deletar(int id)

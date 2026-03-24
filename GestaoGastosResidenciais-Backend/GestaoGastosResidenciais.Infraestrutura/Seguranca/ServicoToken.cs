@@ -31,13 +31,5 @@ namespace GestaoGastosResidenciais.Infraestrutura.Seguranca
 
 			return new JwtSecurityTokenHandler().WriteToken(token);
 		}
-
-        public string GerarTokenDeAtualizacao()
-        {
-			var randomNumber = new byte[32];
-			using var rng = RandomNumberGenerator.Create();
-			rng.GetBytes(randomNumber);
-			return Convert.ToBase64String(randomNumber);
-		}
     }
 }

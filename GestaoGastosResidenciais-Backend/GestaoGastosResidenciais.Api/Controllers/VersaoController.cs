@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
+	// ─── VersaoController ───────────────────────────────────────────────────────────────────
+	// Controller responsável por expor a versão atual da API
+
 	[Route("api/[controller]")]
-	[AllowAnonymous]
+	[Authorize]
 	[ApiController]
 	public class VersaoController : PadraoApiController
 	{

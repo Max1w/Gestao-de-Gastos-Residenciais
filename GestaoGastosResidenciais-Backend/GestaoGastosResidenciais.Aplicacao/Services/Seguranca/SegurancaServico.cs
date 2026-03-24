@@ -7,12 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Seguranca
 {
-    public class SegurancaServico(
+	// ─── SegurancaServico ───────────────────────────────────────────────────────────────────
+	// Camada de serviço de autenticação, valida credenciais e gera tokens de acesso
+
+	public class SegurancaServico(
         IRepositorio<UsuarioEntity> usuarioRepositorio,
 		IHashSenha hashSenha,
 		IServicoToken servicoToken) : ISegurancaServico
     {
-        public async Task<AutenticacaoResposta> Logar(LoginDTO credenciais)
+
+		// Valida usuário e senha, gera token de acesso
+		public async Task<AutenticacaoResposta> Logar(LoginDTO credenciais)
         {
 			var usuario = await usuarioRepositorio.Consultar()
 				.FirstOrDefaultAsync(u => u.Username == credenciais.Usuario);
@@ -21,10 +26,6 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Seguranca
 				throw new ArgumentException("Usuário ou senha inválidos.");
 
 			var token = servicoToken.GerarToken(usuario);
-			var tokenDeAtualizacao = servicoToken.GerarTokenDeAtualizacao();
-
-			usuario.TokenDeAtualizacao = tokenDeAtualizacao;
-			usuario.ExpiracaoTokenAtualizacao = DateTime.UtcNow.AddDays(1);
 
 			await usuarioRepositorio.Atualizar(usuario);
 
@@ -33,35 +34,6 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Seguranca
 				NomeDoUsuario = usuario.Username!,
 				CodigoDoUsuario = usuario.Id,
 				Token = token,
-				TokenDeAtualizacao = tokenDeAtualizacao
-			};
-		}
-
-		public async Task<AutenticacaoResposta?> RenovarToken(string tokenDeAtualizacao)
-		{
-			if (string.IsNullOrWhiteSpace(tokenDeAtualizacao))
-				return null;
-
-			var usuario = await usuarioRepositorio.Consultar()
-				.FirstOrDefaultAsync(u => u.TokenDeAtualizacao == tokenDeAtualizacao);
-
-			if ((usuario == null) || (usuario.ExpiracaoTokenAtualizacao <= DateTime.UtcNow))
-				return null;
-
-			var novoToken = servicoToken.GerarToken(usuario);
-			var novoTokenDeAtualizacao = servicoToken.GerarTokenDeAtualizacao();
-
-			usuario.TokenDeAtualizacao = novoTokenDeAtualizacao;
-			usuario.ExpiracaoTokenAtualizacao = DateTime.UtcNow.AddDays(1);
-
-			await usuarioRepositorio.Atualizar(usuario);
-
-			return new AutenticacaoResposta
-			{
-				NomeDoUsuario = usuario.Username!,
-				CodigoDoUsuario = usuario.Id,
-				Token = novoToken,
-				TokenDeAtualizacao = novoTokenDeAtualizacao
 			};
 		}
 	}

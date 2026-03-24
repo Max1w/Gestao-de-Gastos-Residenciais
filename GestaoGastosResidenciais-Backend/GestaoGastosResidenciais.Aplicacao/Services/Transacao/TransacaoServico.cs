@@ -7,9 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Transacao
 {
-    public class TransacaoServico(
+	// ─── TransacaoServico ───────────────────────────────────────────────────────────────────
+	// Camada de serviço do CRUD de transações e consultas de totais agrupados
+
+	public class TransacaoServico(
         IRepositorio<TransacaoEntity> repositorio) : ITransacaoServico
 	{
+		// Mapeia o DTO para entidade e atualiza no banco
 		public async Task<TransacaoEntity> Alterar(TransacaoDTO transacao)
 		{
 			var entidade = new TransacaoEntity
@@ -28,6 +32,7 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Transacao
 			return entidade;
 		}
 
+		// Mapeia o DTO para entidade e persiste no banco
 		public async Task<TransacaoEntity> Cadastrar(TransacaoDTO transacao)
 		{
 			var entidade = new TransacaoEntity
@@ -44,6 +49,8 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Transacao
 
 			return entidade;
 		}
+
+		// Retorna todas as transações cadastradas
 		public async Task<List<TransacaoEntity>> Consultar()
 		{
 			return await Task.FromResult(
@@ -51,9 +58,11 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Transacao
 					);
 		}
 
-        public Task Deletar(int id)
+		// Remove a transação pelo id
+		public Task Deletar(int id)
 		   => repositorio.Deletar(id);
 
+		// Agrupa as transações por categoria e calcula receita, despesa e saldo líquido
 		public async Task<List<DadosDaConsultaPorCategorias>> ConsultarTotaisPorCategoria()
 		{
 			var transacoes = await repositorio.Consultar()
@@ -75,6 +84,7 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Transacao
 				.ToList();
 		}
 
+		// Agrupa as transações por pessoa e calcula receita, despesa e saldo líquido
 		public async Task<List<DadosDaConsultaPorPessoas>> ConsultarTotaisPorPessoa()
 		{
 			var transacoes = await repositorio.Consultar()

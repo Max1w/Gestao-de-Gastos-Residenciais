@@ -1,9 +1,16 @@
 ﻿using GestaoGastosResidenciais.Api.Respostas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
+
+	// ─── PadraoApiController ───────────────────────────────────────────────────────────────────
+	// Controller base do sistema, centraliza os métodos de resposta HTTP
+	// usados por todos os controllers que herdam desta classe
+
 	[Route("api/[controller]")]
+	[Authorize]
 	[ApiController]
 	public class PadraoApiController : ControllerBase
 	{
@@ -19,6 +26,8 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			return BadRequest(new { Message = mensagem, Error = erro });
 		}
 
+		// Retorna 500 com a mensagem de erro
+		// Em modo DEBUG também inclui a stack trace da exceção
 		protected IActionResult Erro(string mensagem, Exception ex = null!)
 		{
 #if DEBUG

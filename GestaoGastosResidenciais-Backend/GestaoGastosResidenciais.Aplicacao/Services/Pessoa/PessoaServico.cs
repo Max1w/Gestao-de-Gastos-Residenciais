@@ -5,10 +5,14 @@ using GestaoGastosResidenciais.Domain.Interfaces.Base;
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Pessoa
 {
-    public class PessoaServico(
+	// ─── PessoaServico ───────────────────────────────────────────────────────────────────
+	// Camada de serviço do CRUD de pessoas, converte DTOs em entidades e acessa o repositório
+
+	public class PessoaServico(
         IRepositorio<PessoaEntity> repositorio) : IPessoaServico
     {
-        public async Task<PessoaEntity> Alterar(PessoaDTO pessoa)
+		// Mapeia o DTO para entidade e atualiza no banco
+		public async Task<PessoaEntity> Alterar(PessoaDTO pessoa)
         {
             var entidade = new PessoaEntity
             {
@@ -22,7 +26,8 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Pessoa
 			return entidade;
 		}
 
-        public async Task<PessoaEntity> Cadastrar(PessoaDTO pessoa)
+		// Mapeia o DTO para entidade e persiste no banco
+		public async Task<PessoaEntity> Cadastrar(PessoaDTO pessoa)
         {
 			var entidade = new PessoaEntity
 			{
@@ -35,18 +40,20 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Pessoa
 			return entidade;
 		}
 
-        public async Task<List<PessoaEntity>> Consultar()
+		// Retorna todas as pessoas cadastradas
+		public async Task<List<PessoaEntity>> Consultar()
         {
 			return await Task.FromResult(
 						repositorio.Consultar().ToList()
 					);
 		}
 
-        public Task Deletar(int id)
+		// Remove a pessoa pelo id
+		public Task Deletar(int id)
 			=> repositorio.Deletar(id);
 
 
-		// Se o front envia-se a data de nascimento, seria utilizado este código
+		// Se o front enviasse a data de nascimento, seria utilizado este código
 		// para calcular a idade
 
 		//private static int CalcularIdade(PessoaRequisicao pessoa)

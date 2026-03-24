@@ -2,8 +2,13 @@
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Versao
 {
-    public class VersaoServico : IVersaoServico
+	// ─── VersaoServico ───────────────────────────────────────────────────────────────────
+	// Lê a versão do assembly em tempo de execução e retorna formatada
+
+	public class VersaoServico : IVersaoServico
 	{
+		// Retorna a versão do assembly no formato "vMajor.Minor.Build [projeto]"
+		// Omite o Build se for 0 (ex: "v1.0 [Api]")
 		public string Consultar(object item, string projeto)
 		{
 			ArgumentNullException.ThrowIfNull(item, nameof(item));

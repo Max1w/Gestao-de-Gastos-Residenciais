@@ -6,7 +6,11 @@ using System.Formats.Asn1;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
+	// ─── SegurancaController ───────────────────────────────────────────────────────────────────
+	// Controller responsável pela autenticação do sistema (login e logout)
+
 	[Route("api/seguranca")]
+	[Authorize]
 	[ApiController]
 	public class SegurancaController : PadraoApiController
 	{
@@ -15,6 +19,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 		public SegurancaController(ISegurancaServico servicoSeguranca)
 			=>_servicoSeguranca = servicoSeguranca;
 
+		// Autentica o usuário, armazena o token em cookie HttpOnly e retorna os dados do usuário
 		[HttpPost("login")]
 		public async Task<IActionResult> Logar([FromBody] LoginDTO requisicao)
 		{
@@ -51,35 +56,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			);
 		}
 
-		[HttpPost("refresh")]
-		public async Task<IActionResult> Renovar([FromBody] RenovarTokenDTO requisicao)
-		{
-			var resposta = await _servicoSeguranca.RenovarToken(requisicao.TokenDeAtualizacao);
-
-			if (resposta == null) return Unauthorized(new { mensagem = "Token de atualização inválido ou expirado" });
-
-			Response.Cookies.Append("TokenAuth", resposta.Token, new CookieOptions
-			{
-				HttpOnly = true,
-				Secure = !Request.Host.Host.Contains("localhost"),
-				SameSite = SameSiteMode.Strict
-			});
-
-			return Ok(
-				new
-				{
-					mensagem = "Sessão renovada com sucesso",
-					usuario = new
-					{
-						resposta.NomeDoUsuario,
-						resposta.CodigoDoUsuario,
-						resposta.Token,
-						resposta.TokenDeAtualizacao
-					}
-				}
-			);
-		}
-
+		// Remove o cookie de autenticação encerrando a sessão do usuário
 		[HttpPost("logout")]
 		public IActionResult Logout()
 		{

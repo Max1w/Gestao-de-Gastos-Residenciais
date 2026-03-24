@@ -5,9 +5,13 @@ using GestaoGastosResidenciais.Domain.Interfaces.Base;
 
 namespace GestaoGastosResidenciais.Aplicacao.Services.Categoria
 {
-    public class CategoriaServico(
+	// ─── CategoriaServico ───────────────────────────────────────────────────────────────────
+	// Camada de serviço do CRUD de categorias, converte DTOs em entidades e acessa o repositório
+
+	public class CategoriaServico(
         IRepositorio<CategoriaEntity> repositorio) : ICategoriaServico
 	{
+		// Mapeia o DTO para entidade e atualiza no banco
 		public async Task<CategoriaEntity> Alterar(CategoriaDTO categoria)
         {
 			var entidade = new CategoriaEntity
@@ -22,7 +26,8 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Categoria
 			return entidade;
 		}
 
-        public async Task<CategoriaEntity> Cadastrar(CategoriaDTO categoria)
+		// Mapeia o DTO para entidade e persiste no banco
+		public async Task<CategoriaEntity> Cadastrar(CategoriaDTO categoria)
 		{
 			var entidade = new CategoriaEntity
 			{
@@ -35,6 +40,7 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Categoria
 			return entidade;
 		}
 
+		// Retorna todas as categorias cadastradas
 		public async Task<List<CategoriaEntity>> Consultar()
 		{
 			return await Task.FromResult(
@@ -42,7 +48,8 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Categoria
 					);
 		}
 
-        public Task Deletar(int id)
+		// Remove a categoria pelo id
+		public Task Deletar(int id)
 			=> repositorio.Deletar(id);
 	}
 }

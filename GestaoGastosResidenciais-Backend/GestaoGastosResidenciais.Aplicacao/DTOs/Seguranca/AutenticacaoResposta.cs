@@ -5,6 +5,5 @@
 		public string NomeDoUsuario { get; set; } = string.Empty;
 		public int CodigoDoUsuario { get; set; }
 		public string Token { get; set; } = string.Empty;
-		public string TokenDeAtualizacao { get; set; } = string.Empty;
 	}
 }

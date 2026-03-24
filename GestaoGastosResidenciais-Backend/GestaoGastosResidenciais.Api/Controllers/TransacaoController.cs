@@ -2,12 +2,18 @@
 using GestaoGastosResidenciais.Aplicacao.DTOs.Transacao;
 using GestaoGastosResidenciais.Aplicacao.Services.Pessoa.Interface;
 using GestaoGastosResidenciais.Aplicacao.Services.Transacao.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
-    [Route("api/transacao")]
-    [ApiController]
+
+	// ─── TransacaoController ───────────────────────────────────────────────────────────────────
+	// Controller responsável pelo CRUD de transações e consultas de totais
+
+	[Route("api/transacao")]
+	[Authorize]
+	[ApiController]
     public class TransacaoController : PadraoApiController
 	{
         private readonly ITransacaoServico _transacao;
@@ -15,6 +21,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
         public TransacaoController(ITransacaoServico transacao)
             => _transacao = transacao;
 
+		// Cadastra uma nova transação e retorna os dados cadastrados
 		[HttpPost]
 		[Route("cadastrar")]
 		public async Task<IActionResult> Cadastrar([FromBody] TransacaoDTO transacao)
@@ -34,6 +41,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Atualiza uma transação existente e retorna os dados atualizados
 		[HttpPost]
 		[Route("alterar")]
 		public async Task<IActionResult> Alterar([FromBody] TransacaoDTO transacao)
@@ -53,6 +61,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Retorna todas as transações cadastradas
 		[HttpGet]
 		[Route("consultar")]
 		public async Task<IActionResult> Consultar()
@@ -68,6 +77,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Remove uma transação pelo id
 		[HttpDelete]
 		[Route("remover/{id}")]
 		public async Task<IActionResult> Deletar(int id)
@@ -86,6 +96,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Retorna o total de receitas, despesas e saldo líquido agrupados por categoria
 		[HttpGet]
 		[Route("consultarTotaisPorCategoria")]
 		public async Task<IActionResult> ConsultarPorCategoria()
@@ -101,6 +112,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Retorna o total de receitas, despesas e saldo líquido agrupados por pessoa
 		[HttpGet]
 		[Route("consultarTotaisPorPessoa")]
 		public async Task<IActionResult> ConsultarPorPessoa()

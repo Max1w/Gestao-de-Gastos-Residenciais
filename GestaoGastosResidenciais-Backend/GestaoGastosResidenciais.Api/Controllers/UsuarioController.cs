@@ -1,9 +1,13 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Usuario;
 using GestaoGastosResidenciais.Aplicacao.Services.Usuario.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
+	// ─── UsuarioController ───────────────────────────────────────────────────────────────────
+	// Controller responsável pelo cadastro de usuários no sistema
+
 	[Route("api/usuario")]
 	[ApiController]
 	public class UsuarioController : PadraoApiController
@@ -13,6 +17,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 		public UsuarioController(IUsuarioServico usuarioService)
 			=> _usuarioService = usuarioService;
 
+		// Valida os campos obrigatórios, cadastra o usuário e retorna mensagem de sucesso
 		[HttpPost]
 		[Route("cadastrar")]
 		public async Task<IActionResult> Cadastrar(UsuarioDTO usuario)

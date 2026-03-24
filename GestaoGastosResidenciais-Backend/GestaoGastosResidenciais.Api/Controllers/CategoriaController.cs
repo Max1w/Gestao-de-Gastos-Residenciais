@@ -1,20 +1,27 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Categoria;
 using GestaoGastosResidenciais.Aplicacao.Services.Categoria.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
-    [Route("api/categoria")]
-    [ApiController]
+
+	// ─── CategoriaController ───────────────────────────────────────────────────────────────────
+	// Controller responsável pelo CRUD de categorias
+
+	[Route("api/categoria")]
+	[Authorize]
+	[ApiController]
     public class CategoriaController : PadraoApiController
     {
         private readonly ICategoriaServico _categoria;
 
-        public CategoriaController(ICategoriaServico categoria)
+		public CategoriaController(ICategoriaServico categoria)
             => _categoria = categoria;
 
-        [HttpPost]
-        [Route("cadastrar")]
+		// Cadastra uma nova categoria e retorna os dados cadastrados
+		[HttpPost]
+        [Route("cadastrar")] 
         public async Task<IActionResult> Cadastrar([FromBody] CategoriaDTO categoria)
         {
             try
@@ -32,6 +39,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
             }
         }
 
+		// Atualiza uma categoria existente e retorna os dados atualizados
 		[HttpPut]
 		[Route("alterar")]
 		public async Task<IActionResult> Alterar([FromBody] CategoriaDTO categoria)
@@ -51,6 +59,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Retorna todas as categorias cadastradas
 		[HttpGet]
 		[Route("consultar")]
 		public async Task<IActionResult> Consultar()
@@ -66,6 +75,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
+		// Remove uma categoria pelo id (também remove as transações vinculadas)
 		[HttpDelete]
 		[Route("remover/{id}")]
 		public async Task<IActionResult> Deletar(int id)
