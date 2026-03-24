@@ -1,14 +1,20 @@
+// ─── Types ───────────────────────────────────────────────────────────────────────
+// Centraliza todos os tipos e enums utilizados no sistema
+
+// Dados do usuário cadastrado
 export type Usuario = {
     id: number;
     nome: string;
     senha: string;
 }
 
+// Payload enviado no login
 export type LoginRequest = {
   usuario: string;
   senha: string;
 };
 
+// Dados retornados após autenticação bem-sucedida
 export type LoginResponse = {
   nomeDoUsuario: string;
   codigoDoUsuario: number;
@@ -16,12 +22,14 @@ export type LoginResponse = {
   tokenDeAtualizacao: string;
 };
 
+// Dados de uma pessoa cadastrada no sistema
 export type Pessoa = {
     id: number;
     nome: string;
     idade: number;
 };
 
+// Enum de finalidade da categoria (despesa, receita ou ambas)
 export const FinalidadeCategoria = {
     Despesa: 1,
     Receita: 2,
@@ -30,12 +38,14 @@ export const FinalidadeCategoria = {
 
 export type FinalidadeCategoria = typeof FinalidadeCategoria[keyof typeof FinalidadeCategoria];
 
+// Dados de uma categoria cadastrada no sistema
 export type Categoria = {
     id: number;
     descricao: string;
     finalidade: FinalidadeCategoria;
 };
 
+// Enum de tipo da transação (despesa ou receita)
 export const TipoTransacao = {
     Despesa: 1,
     Receita: 2,
@@ -43,6 +53,7 @@ export const TipoTransacao = {
 
 export type TipoTransacao = typeof TipoTransacao[keyof typeof TipoTransacao];
 
+// Dados de uma transação cadastrada no sistema
 export type Transacao = {
     id: number;
     descricao: string;
@@ -52,6 +63,7 @@ export type Transacao = {
     pessoaId: number;
 };
 
+// Totais de receita, despesa e saldo líquido agrupados por categoria
 export type TotalPorCategoria = {
   categoriaId: number;
   nomeCategoria: string;
@@ -60,6 +72,7 @@ export type TotalPorCategoria = {
   saldoLiquido: number;
 }
 
+// Totais de receita, despesa e saldo líquido agrupados por pessoa
 export type TotalPorPessoa = {
   pessoaId: number;
   nomePessoa: string;
