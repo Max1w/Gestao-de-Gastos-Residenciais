@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "../pages/Login";
 import {PrivateRoute } from "./privateRoute";
 import { VisaoGeral } from "../pages/VisaoGeral";
@@ -8,6 +8,11 @@ import { Pessoa } from "../pages/Pessoas";
 import { Layout } from "../components/Layout/layout";
 import { TotaisPorCategoria } from "../pages/TotaisPorCategoria";
 import { TotaisPorPessoa } from "../pages/TotaisPorPessoa";
+
+// ─── AppRoutes ───────────────────────────────────────────────────────────────────
+// Define todas as rotas da aplicação
+// Rotas protegidas ficam dentro do PrivateRoute (exige autenticação)
+// e do Layout (aplica o menu/estrutura visual padrão)
 
 export function AppRoutes() {
     return (

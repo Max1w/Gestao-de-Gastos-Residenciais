@@ -1,6 +1,9 @@
 import { PessoaProxy } from "../proxies/pessoaProxy";
 import type { Pessoa } from "../types";
 
+// ─── PessoaService ───────────────────────────────────────────────────────────────────
+// Camada de serviço do CRUD de pessoas, responsável por chamar o proxy correspondente
+
 export const PessoaService = {
     consultar: async (): Promise<Pessoa[]> => {
         return await PessoaProxy.consultar();
