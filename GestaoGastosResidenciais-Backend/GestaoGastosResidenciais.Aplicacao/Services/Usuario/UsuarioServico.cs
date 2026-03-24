@@ -22,6 +22,12 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Usuario
                 SenhaHash = hash.HashearSenha(usuario.Senha!)
             };
 
+			var existeUsuario = usuarioRepositorio.Consultar()
+					.FirstOrDefault(x => (x.Username == entidade.Username));
+
+			if (existeUsuario != null)
+				throw new ArgumentException("Usuário já cadastrado!");
+
 			usuarioRepositorio.Adicionar(entidade);
 		}
     }

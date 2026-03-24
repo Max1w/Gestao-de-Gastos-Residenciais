@@ -119,9 +119,24 @@ export function Login() {
           senha: cadastro.senha
         }
 
-        UsuarioService.cadastrar(credenciais);
+        UsuarioService.cadastrar(credenciais)
+          .then((res: any) => {
+            alert(res.mensagem);
+            fecharModal();
+          })
+          .catch((erro: any) => {
+            const mensagem =
+              erro?.response?.data?.mensagem ||
+              erro?.response?.data?.message ||
+              erro?.message ||
+              "Erro ao cadastrar";
 
-        fecharModal();
+            setErro(mensagem);
+
+            setTimeout(() => {
+              setErro("");
+            }, 10000);
+          });
       };
 
     // Valida os campos, autentica o usuário na API e redireciona para a visão geral
@@ -140,10 +155,14 @@ export function Login() {
         LoginService.logar(credenciais)
           .then((usuario: LoginResponse) => {
             login(usuario);
-            navigate("/visaoGeral");
+            navigate("/transacoes");
           })
           .catch(() => {
             setErro("Usuário ou senha inválidos.");
+
+            setTimeout(() => {
+              setErro("");
+            }, 10000);
           })
           .finally(() => {
             setLoading(false);
@@ -231,7 +250,7 @@ export function Login() {
                             <div className="space-y-4">
                               <div>
                                 <Input
-                                  label="Nome"
+                                  label="USUÁRIO"
                                   type="text"
                                   value={cadastro.nome}
                                   onChange={(e: any) => setCadastro({ ...cadastro, nome: e.target.value })}
@@ -260,7 +279,18 @@ export function Login() {
                               </div>
                             </div>
 
-                            <div className="flex gap-3 pt-2">
+                            <div
+                              className="flex gap-3 pt-2"
+                              style={{ margin: 20, justifyContent: "space-between", display: "flex" }}
+                            >
+                              <Button
+                                onClick={fecharModal}
+                                variant="primary"
+                                className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                              >
+                                Fechar
+                              </Button>
+
                               <Button
                                 onClick={salvarCadastro}
                                 variant="primary"
@@ -268,81 +298,12 @@ export function Login() {
                               >
                                 Salvar
                               </Button>
-
-                              <Button
-                                onClick={fecharModal}
-                                variant="primary"
-                                className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
-                              >
-                                fechar
-                              </Button>
                             </div>
                           </div>
                         </div>
                       )}
                 </div>
             </div>
-
-            {modalAberto && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 space-y-6">
-
-                  <h2 className="text-xl font-semibold text-gray-800 text-center">
-                    Cadastrar usuário
-                  </h2>
-
-                  <div className="space-y-4">
-                    <div>
-                      <Input
-                        label="Nome"
-                        type="text"
-                        value={cadastro.nome}
-                        onChange={(e: any) => setCadastro({ ...cadastro, nome: e.target.value })}
-                        onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
-                        iconeEsquerda={
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
-                            <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
-                          </svg>
-                        }
-                      />
-                    </div>
-
-                    <div>
-                      <Input
-                        label="SENHA"
-                        type="password"
-                        value={cadastro.senha}
-                        onChange={(e: any) => setCadastro({ ...cadastro, senha: e.target.value })}
-                        onKeyDown={(e: any) => e.key === "Enter" && handleLogin()}
-                        iconeEsquerda={
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#bbb" viewBox="0 0 24 24">
-                            <path d="M12 1C9.243 1 7 3.243 7 6v2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2h-2V6c0-2.757-2.243-5-5-5z"/>
-                          </svg>
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 pt-2">
-                    <Button
-                      onClick={salvarCadastro}
-                      variant="primary"
-                      className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      Salvar
-                    </Button>
-
-                    <Button
-                      onClick={fecharModal}
-                      variant="primary"
-                      className="flex-1 text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
-                    >
-                      fechar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
         </>
     );
 }

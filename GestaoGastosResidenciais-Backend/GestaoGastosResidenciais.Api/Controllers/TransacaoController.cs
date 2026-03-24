@@ -41,26 +41,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 		}
 
-		// Atualiza uma transação existente e retorna os dados atualizados
-		[HttpPost]
-		[Route("alterar")]
-		public async Task<IActionResult> Alterar([FromBody] TransacaoDTO transacao)
-		{
-			try
-			{
-				var resultado = await _transacao.Alterar(transacao);
-
-				if (resultado == null)
-					return NotFound();
-
-				return Ok(resultado);
-			}
-			catch (Exception e)
-			{
-				return Erro(e.Message);
-			}
-		}
-
 		// Retorna todas as transações cadastradas
 		[HttpGet]
 		[Route("consultar")]
@@ -74,25 +54,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			catch (Exception e)
 			{
 				return BadRequest(new { Message = "Ocorreu um erro ao obter os dados das transações." });
-			}
-		}
-
-		// Remove uma transação pelo id
-		[HttpDelete]
-		[Route("remover/{id}")]
-		public async Task<IActionResult> Deletar(int id)
-		{
-			try
-			{
-				if (id == 0)
-					return BadRequest(new { Message = "O ID da transação é inválido." });
-
-				await _transacao.Deletar(id);
-				return NoContent();
-			}
-			catch (Exception)
-			{
-				return BadRequest();
 			}
 		}
 

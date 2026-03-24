@@ -10,7 +10,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
 	// usados por todos os controllers que herdam desta classe
 
 	[Route("api/[controller]")]
-	[Authorize]
 	[ApiController]
 	public class PadraoApiController : ControllerBase
 	{

@@ -1,8 +1,6 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Seguranca;
 using GestaoGastosResidenciais.Aplicacao.Services.Seguranca.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Formats.Asn1;
 
 namespace GestaoGastosResidenciais.Api.Controllers
 {
@@ -10,7 +8,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
 	// Controller responsável pela autenticação do sistema (login e logout)
 
 	[Route("api/seguranca")]
-	[Authorize]
 	[ApiController]
 	public class SegurancaController : PadraoApiController
 	{
@@ -49,8 +46,7 @@ namespace GestaoGastosResidenciais.Api.Controllers
 					{
 						resposta.NomeDoUsuario,
 						resposta.CodigoDoUsuario,
-						resposta.Token,
-						resposta.TokenDeAtualizacao
+						resposta.Token
 					}
 				}
 			);

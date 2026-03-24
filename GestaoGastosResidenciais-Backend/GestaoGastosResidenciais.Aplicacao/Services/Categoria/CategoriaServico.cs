@@ -1,4 +1,5 @@
 ﻿using GestaoGastosResidenciais.Aplicacao.DTOs.Categoria;
+using GestaoGastosResidenciais.Aplicacao.Mapeamente;
 using GestaoGastosResidenciais.Aplicacao.Services.Categoria.Interface;
 using GestaoGastosResidenciais.Domain.Entidades;
 using GestaoGastosResidenciais.Domain.Interfaces.Base;
@@ -8,48 +9,40 @@ namespace GestaoGastosResidenciais.Aplicacao.Services.Categoria
 	// ─── CategoriaServico ───────────────────────────────────────────────────────────────────
 	// Camada de serviço do CRUD de categorias, converte DTOs em entidades e acessa o repositório
 
-	public class CategoriaServico(
-        IRepositorio<CategoriaEntity> repositorio) : ICategoriaServico
+	public class CategoriaServico : ICategoriaServico
 	{
-		// Mapeia o DTO para entidade e atualiza no banco
-		public async Task<CategoriaEntity> Alterar(CategoriaDTO categoria)
+		private readonly IRepositorio<CategoriaEntity> _repositorio;
+		private readonly CategoriaMapeamento _mapeamento;
+
+        public CategoriaServico(IRepositorio<CategoriaEntity> repositorio)
         {
-			var entidade = new CategoriaEntity
-			{
-				Id = categoria.Id,
-				Descricao = categoria.Descricao,
-				Finalidade = (byte)categoria.Finalidade,
-			};
+            _repositorio = repositorio;
+            _mapeamento = new CategoriaMapeamento();
+        }
 
-			await repositorio.Atualizar(entidade);
-
-			return entidade;
-		}
-
-		// Mapeia o DTO para entidade e persiste no banco
-		public async Task<CategoriaEntity> Cadastrar(CategoriaDTO categoria)
+        // Mapeia o DTO para entidade e persiste no banco
+        public async Task<CategoriaDTO> Cadastrar(CategoriaDTO categoria)
 		{
-			var entidade = new CategoriaEntity
-			{
-				Descricao = categoria.Descricao,
-				Finalidade = (byte)categoria.Finalidade,
-			};
-
-			await repositorio.Adicionar(entidade);
-
-			return entidade;
+			var entity = _mapeamento.Parse(categoria);
+			await _repositorio.Adicionar(entity);
+			return _mapeamento.Parse(entity);
 		}
 
 		// Retorna todas as categorias cadastradas
-		public async Task<List<CategoriaEntity>> Consultar()
+		public Task<List<CategoriaDTO>> Consultar()
 		{
-			return await Task.FromResult(
-						repositorio.Consultar().ToList()
-					);
+			var lista = _repositorio.Consultar().ToList();
+			return Task.FromResult(_mapeamento.ParseList(lista));
 		}
 
-		// Remove a categoria pelo id
-		public Task Deletar(int id)
-			=> repositorio.Deletar(id);
+		public Task<CategoriaDTO> BuscarPorId(int id)
+		{
+			var entity = _repositorio.Consultar().FirstOrDefault(x => x.Id == id);
+
+			if (entity is null)
+				throw new KeyNotFoundException($"Categoria com id {id} não encontrada.");
+
+			return Task.FromResult(_mapeamento.Parse(entity));
+		}
 	}
 }

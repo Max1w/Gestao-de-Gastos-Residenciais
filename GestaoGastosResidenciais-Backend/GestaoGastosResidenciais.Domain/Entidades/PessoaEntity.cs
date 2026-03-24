@@ -10,6 +10,8 @@ namespace GestaoGastosResidenciais.Domain.Entidades
         public int? Idade { get; set; }
 		#endregion
 
+		public bool EhMaiorDeIdade() => Idade >= 18;
+
 		#region Navegação
 		public ICollection<TransacaoEntity> Transacoes { get; set; } = new List<TransacaoEntity>();
 		#endregion

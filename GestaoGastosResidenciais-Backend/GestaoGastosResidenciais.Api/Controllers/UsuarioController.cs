@@ -32,11 +32,11 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			}
 			catch (ArgumentException ex)
 			{
-				return BadRequest(new { message = ex.Message });
+				return BadRequest(new { mensagem = ex.Message });
 			}
 			catch (Exception ex)
 			{
-				return StatusCode(500, new { message = "Erro interno ao cadastrar usuário.", erro = ex.Message });
+				return StatusCode(500, new { mensagem = "Erro interno ao cadastrar usuário."});
 			}
 		}
 	}

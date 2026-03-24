@@ -10,11 +10,5 @@ export const CategoriaService = {
     },
     cadastrar: async (categoria: Omit<Categoria, 'id'>): Promise<Categoria> => {
         return await CategoriaProxy.cadastrar(categoria);
-    },
-    alterar: async (categoria: Categoria): Promise<Categoria> => {
-        return await CategoriaProxy.alterar(categoria);
-    },
-    remover: async (id: number): Promise<void> => {
-        return await CategoriaProxy.remover(id);
     }
 };

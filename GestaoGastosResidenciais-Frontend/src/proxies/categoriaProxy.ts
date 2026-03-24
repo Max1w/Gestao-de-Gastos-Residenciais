@@ -10,11 +10,5 @@ export const CategoriaProxy = {
     },
     cadastrar: (body: Omit<Categoria, 'id'>): Promise<Categoria> => {
         return Navegador.post<Categoria>("/categoria/cadastrar", body);
-    },
-    alterar: (body: Categoria): Promise<Categoria> => {
-        return Navegador.put<Categoria>("/categoria/alterar", body);
-    },
-    remover: (id: number): Promise<void> => {
-        return Navegador.delete<void>(`/categoria/remover/${id}`);
     }
 };

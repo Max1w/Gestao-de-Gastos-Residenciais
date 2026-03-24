@@ -29,7 +29,6 @@ const SECOES: SecaoMenu[] = [
   {
     titulo: "Geral",
     itens: [
-      { rotulo: "Visão Geral",          Icone: LayoutDashboard, caminho: "/visaoGeral" },
       { rotulo: "Transações",           Icone: DollarSign,      caminho: "/transacoes" },
     ],
   },

@@ -11,12 +11,6 @@ export const TransacaoService = {
     cadastrar: async (transacao: Omit<Transacao, 'id'>): Promise<Transacao> => {
         return await TransacaoProxy.cadastrar(transacao);
     },
-    alterar: async (transacao: Transacao): Promise<Transacao> => {
-        return await TransacaoProxy.alterar(transacao);
-    },
-    remover: async (id: number): Promise<void> => {
-        return await TransacaoProxy.remover(id);
-    },
 
     consultarTotaisPorPessoa: async (): Promise<TotalPorPessoa[]> => {
         return await TransacaoProxy.consultarTotaisPorPessoa();

@@ -54,7 +54,6 @@ export function Transacao() {
     idCategoria: number;
     idPessoa: number;
   }>(estadoInicial);
-  const [editando, setEditando] = useState<Transacao | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
@@ -85,22 +84,7 @@ export function Transacao() {
 
   // Abre o modal limpo para cadastrar uma nova transação
   function abrirNovo() {
-    setEditando(null);
     setFormulario(estadoInicial);
-    setErro("");
-    setModalAberto(true);
-  }
-
-  // Abre o modal preenchido com os dados da transação para edição
-  function abrirEdicao(t: Transacao) {
-    setEditando(t);
-    setFormulario({
-      descricao: t.descricao,
-      valor: String(t.valor),
-      tipo: t.tipo,
-      idCategoria: t.categoriaId,
-      idPessoa: t.pessoaId,
-    });
     setErro("");
     setModalAberto(true);
   }
@@ -118,41 +102,49 @@ export function Transacao() {
 
   // Salva o formulário: cadastra nova ou atualiza existente
   async function salvar() {
-    if (!formulario.descricao.trim() || !formulario.valor || !formulario.idCategoria || !formulario.idPessoa) return;
+    if (!formulario.descricao.trim() || !formulario.valor || !formulario.idCategoria || !formulario.idPessoa) {
+      setErro("Preencha os campos.");
+      return;
+    } 
+
+    const pessoaSelecionada = pessoas.find(p => p.id === formulario.idPessoa);
+    const idade = pessoaSelecionada?.idade;
+
+    if ((idade! < 18) && formulario.tipo == TipoTransacao.Receita){
+      setErro("A pessoa selecionada possui menos de 18 anos. Por favor, lance apenas despesas ou selecione outra pessoa.");
+      return;
+    }
+
     setCarregando(true);
     setErro("");
     try {
       const payload = {
         descricao: formulario.descricao.trim(),
-        valor: Number(formulario.valor),
+        valor: Number(formulario.valor.replace(/\./g, "").replace(",", ".")),
         tipo: formulario.tipo,
         categoriaId: formulario.idCategoria,
         pessoaId: formulario.idPessoa,
       };
-      if (editando) {
-        const atualizada = await TransacaoService.alterar({ ...editando, ...payload });
-        setTransacoes(t => t.map(x => x.id === atualizada.id ? atualizada : x));
-      } else {
-        const nova = await TransacaoService.cadastrar(payload);
-        setTransacoes(t => [...t, nova]);
-      }
+      const nova = await TransacaoService.cadastrar(payload);
+      setTransacoes(t => [...t, nova]);
       fecharModal();
-    } catch {
-      setErro("Erro ao salvar. Tente novamente.");
-    } finally {
+    } catch (e: any) {
+      setErro(e?.message ?? "Erro ao salvar. Tente novamente.");
+    }finally {
       setCarregando(false);
     }
   }
 
-  // Pede confirmação e remove a transação da API e da lista local
-  async function remover(id: number) {
-    if (!confirm("Deseja remover esta transação?")) return;
-    try {
-      await TransacaoService.remover(id);
-      setTransacoes(t => t.filter(x => x.id !== id));
-    } catch {
-      alert("Erro ao remover transação.");
-    }
+  function formatarInputValor(input: string): string {
+    const apenasDigitos = input.replace(/\D/g, "");
+    if (!apenasDigitos) return "";
+
+    const numero = parseInt(apenasDigitos, 10);
+    const reais = Math.floor(numero / 100);
+    const centavos = numero % 100;
+
+    const reaisFormatado = reais.toLocaleString("pt-BR");
+    return `${reaisFormatado},${String(centavos).padStart(2, "0")}`;
   }
 
   // Retorna o nome da pessoa pelo id
@@ -193,7 +185,6 @@ export function Transacao() {
                 <th>Valor</th>
                 <th>Categoria</th>
                 <th>Pessoa</th>
-                <th style={{ textAlign: "right" }}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -212,16 +203,6 @@ export function Transacao() {
                   </td>
                   <td>{nomeCategoria(t.categoriaId)}</td>
                   <td>{nomePessoa(t.pessoaId)}</td>
-                  <td>
-                    <div className="acoes">
-                      <Button variant="secondary" onClick={() => abrirEdicao(t)} title="Editar">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                      </Button>
-                      <Button variant="danger" onClick={() => remover(t.id)} title="Remover">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                      </Button>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -231,7 +212,7 @@ export function Transacao() {
         {modalAberto && (
           <div className="modal-overlay" onClick={fecharModal}>
             <div className="modal" onClick={e => e.stopPropagation()}>
-              <h2 className="modal-titulo">{editando ? "Editar Transação" : "Nova Transação"}</h2>
+              <h2 className="modal-titulo">{"Nova Transação"}</h2>
 
               <Input
                 label="Descrição *"
@@ -244,12 +225,12 @@ export function Transacao() {
               <div className="linha-dupla">
                 <Input
                   label="Valor *"
-                  type="number"
+                  type="text"
                   min={0.01}
                   step={0.01}
                   placeholder="0,00"
                   value={formulario.valor}
-                  onChange={e => setFormulario(f => ({ ...f, valor: e.target.value }))}
+                  onChange={e => setFormulario(f => ({ ...f, valor: formatarInputValor(e.target.value) }))}
                 />
                 <div className="campo-grupo">
                   <label className="campo-label">Tipo *</label>

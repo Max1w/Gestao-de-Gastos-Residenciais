@@ -11,12 +11,6 @@ export const TransacaoProxy = {
     cadastrar: (body: Omit<Transacao, 'id'>): Promise<Transacao> => {
         return Navegador.post<Transacao>("/transacao/cadastrar", body);
     },
-    alterar: (body: Transacao): Promise<Transacao> => {
-        return Navegador.put<Transacao>("/transacao/alterar", body);
-    },
-    remover: (id: number): Promise<void> => {
-        return Navegador.delete<void>(`/transacao/remover/${id}`);
-    },
 
     consultarTotaisPorPessoa: (): Promise<TotalPorPessoa[]> => {
         return Navegador.get<TotalPorPessoa[]>("/transacao/consultarTotaisPorPessoa");

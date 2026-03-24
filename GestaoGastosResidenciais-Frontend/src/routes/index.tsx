@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "../pages/Login";
 import {PrivateRoute } from "./privateRoute";
-import { VisaoGeral } from "../pages/VisaoGeral";
 import { Transacao } from "../pages/Transacoes";
 import { Categoria } from "../pages/Categorias";
 import { Pessoa } from "../pages/Pessoas";
@@ -24,7 +23,6 @@ export function AppRoutes() {
                  <Route element={<PrivateRoute />}>
 
                     <Route element={<Layout />}>
-                        <Route path="/visaoGeral"         element={<VisaoGeral />} />
                         <Route path="/transacoes"         element={<Transacao />} />
                         <Route path="/categorias"         element={<Categoria />} />
                         <Route path="/pessoas"            element={<Pessoa />} />

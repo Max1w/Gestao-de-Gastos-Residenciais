@@ -41,7 +41,6 @@ export function Categoria() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [formulario, setFormulario] = useState<{ descricao: string; finalidade: Categoria["finalidade"] }>(estadoInicial);
-  const [editando, setEditando] = useState<Categoria | null>(null);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
@@ -60,16 +59,7 @@ export function Categoria() {
 
   // Abre o modal para cadastrar uma nova categoria
   function abrirNovo() {
-    setEditando(null);
     setFormulario(estadoInicial);
-    setErro("");
-    setModalAberto(true);
-  }
-
-  // Abre o modal preenchido com os dados da categoria para edição
-  function abrirEdicao(categoria: Categoria) {
-    setEditando(categoria);
-    setFormulario({ descricao: categoria.descricao, finalidade: categoria.finalidade });
     setErro("");
     setModalAberto(true);
   }
@@ -86,29 +76,13 @@ export function Categoria() {
     setCarregando(true);
     setErro("");
     try {
-      if (editando) {
-        const atualizada = await CategoriaService.alterar({ ...editando, descricao: formulario.descricao.trim(), finalidade: formulario.finalidade });
-        setCategorias(c => c.map(x => x.id === atualizada.id ? atualizada : x));
-      } else {
-        const nova = await CategoriaService.cadastrar({ descricao: formulario.descricao.trim(), finalidade: formulario.finalidade });
-        setCategorias(c => [...c, nova]);
-      }
+      const nova = await CategoriaService.cadastrar({ descricao: formulario.descricao.trim(), finalidade: formulario.finalidade });
+      setCategorias(c => [...c, nova]);
       fecharModal();
     } catch {
       setErro("Erro ao salvar. Tente novamente.");
     } finally {
       setCarregando(false);
-    }
-  }
-
-  // Pede confirmação e remove
-  async function remover(id: number) {
-    if (!confirm("Deseja remover esta categoria?")) return;
-    try {
-      await CategoriaService.remover(id);
-      setCategorias(c => c.filter(x => x.id !== id));
-    } catch {
-      alert("Erro ao remover categoria.");
     }
   }
 
@@ -140,7 +114,6 @@ export function Categoria() {
               <tr>
                 <th>Descrição</th>
                 <th>Finalidade</th>
-                <th style={{ textAlign: "right" }}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -150,24 +123,6 @@ export function Categoria() {
                 <tr key={c.id}>
                   <td>{c.descricao}</td>
                   <td><span className={badgeClass(c.finalidade)}>{finalidadeLabelMap[c.finalidade]}</span></td>
-                  <td>
-                    <div className="acoes">
-                      <Button
-                        variant="secondary"
-                        onClick={() => abrirEdicao(c)}
-                        title="Editar"
-                      >
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => remover(c.id)}
-                        title="Remover"
-                      >
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                      </Button>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>
@@ -177,7 +132,7 @@ export function Categoria() {
         {modalAberto && (
           <div className="modal-overlay" onClick={fecharModal}>
             <div className="modal" onClick={e => e.stopPropagation()}>
-              <h2 className="modal-titulo">{editando ? "Editar Categoria" : "Nova Categoria"}</h2>
+              <h2 className="modal-titulo">{"Nova Categoria"}</h2>
 
               <Input
                 label="Descrição *"

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Pessoa } from "../../types";
 import { PessoaService } from "../../services/pessoaServices";
+import Button from "../../components/Button/button";
+
 const estilos = `
   .cadastro-container { font-family: sans-serif; padding: 1.5rem; background: #f5f6f8; min-height: 100vh; }
   .cadastro-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.25rem; }
@@ -117,7 +119,11 @@ export function Pessoa() {
             <h1 className="cadastro-titulo">Cadastro de Pessoas</h1>
             <p className="cadastro-subtitulo">Cadastro base de indivíduos no sistema, permitindo a vinculação de responsáveis por transações.</p>
           </div>
-          <button className="btn-novo" onClick={abrirNovo}>+ Nova Pessoa</button>
+          <Button
+           onClick={abrirNovo}
+           title="Nova pessoa">
+            + Nova Pessoa
+          </Button>
         </div>
 
         <div className="tabela-wrapper">
@@ -179,10 +185,19 @@ export function Pessoa() {
               </div>
               {erro && <p className="msg-erro">{erro}</p>}
               <div className="modal-acoes">
-                <button className="btn-cancelar" onClick={fecharModal}>Cancelar</button>
-                <button className="btn-salvar" onClick={salvar} disabled={carregando}>
-                  {carregando ? "Salvando..." : "Salvar"}
-                </button>
+                <Button 
+                  variant="secondary" 
+                  onClick={fecharModal} 
+                  title="Cancelar">
+                  Cancelar
+                </Button>
+                <Button 
+                    onClick={salvar} 
+                    loading={carregando} 
+                    disabled={carregando} 
+                    title="Salvar pessoa">
+                  Salvar
+                </Button>
               </div>
             </div>
           </div>

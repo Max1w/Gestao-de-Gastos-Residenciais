@@ -39,26 +39,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
             }
         }
 
-		// Atualiza uma categoria existente e retorna os dados atualizados
-		[HttpPut]
-		[Route("alterar")]
-		public async Task<IActionResult> Alterar([FromBody] CategoriaDTO categoria)
-		{
-			try
-			{
-				var resultado = await _categoria.Alterar(categoria);
-
-				if (resultado == null)
-					return NotFound();
-
-				return Ok(resultado);
-			}
-			catch (Exception e)
-			{
-				return Erro(e.Message);
-			}
-		}
-
 		// Retorna todas as categorias cadastradas
 		[HttpGet]
 		[Route("consultar")]
@@ -72,25 +52,6 @@ namespace GestaoGastosResidenciais.Api.Controllers
 			catch (Exception e)
 			{
 				return BadRequest(new { Message = "Ocorreu um erro ao obter as categorias." });
-			}
-		}
-
-		// Remove uma categoria pelo id (também remove as transações vinculadas)
-		[HttpDelete]
-		[Route("remover/{id}")]
-		public async Task<IActionResult> Deletar(int id)
-		{
-			try
-			{
-				if (id == 0)
-					return BadRequest(new { Message = "O ID da categoria é inválido." });
-
-				await _categoria.Deletar(id);
-				return NoContent();
-			}
-			catch (Exception)
-			{
-				return BadRequest();
 			}
 		}
 	}
