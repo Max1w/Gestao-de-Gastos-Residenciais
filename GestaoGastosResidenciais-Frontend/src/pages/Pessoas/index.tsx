@@ -31,6 +31,9 @@ const estilos = `
 
 const estadoInicial = { nome: "", idade: "" };
 
+// ─── Pessoa ───────────────────────────────────────────────────────────────────
+// Aqui é a tela de Cadastro de Pessoas, onde fica sua estilização, html e suas functions
+
 export function Pessoa() {
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
   const [modalAberto, setModalAberto] = useState(false);
@@ -39,6 +42,7 @@ export function Pessoa() {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
+  // Busca todas as pessoas da API
   async function carregar() {
     try {
       const dados = await PessoaService.consultar();
@@ -50,6 +54,7 @@ export function Pessoa() {
 
   useEffect(() => { carregar(); }, []);
 
+  // Abre o modal limpo para cadastrar uma nova pessoa
   function abrirNovo() {
     setEditando(null);
     setFormulario(estadoInicial);
@@ -57,6 +62,7 @@ export function Pessoa() {
     setModalAberto(true);
   }
 
+  // Abre o modal preenchido com os dados da pessoa para edição
   function abrirEdicao(pessoa: Pessoa) {
     setEditando(pessoa);
     setFormulario({ nome: pessoa.nome, idade: String(pessoa.idade) });
@@ -64,11 +70,13 @@ export function Pessoa() {
     setModalAberto(true);
   }
 
+  // Fecha o modal
   function fecharModal() {
     setModalAberto(false);
     setErro("");
   }
 
+  // Salva o formulário: cadastra nova ou atualiza existente
   async function salvar() {
     if (!formulario.nome.trim() || !formulario.idade) return;
     setCarregando(true);
@@ -89,6 +97,7 @@ export function Pessoa() {
     }
   }
 
+  // Pede confirmação e remove a pessoa da API e da lista local
   async function remover(id: number) {
     if (!confirm("Deseja remover esta pessoa? Todas as transações vinculadas serão excluídas.")) return;
     try {

@@ -1,6 +1,9 @@
 import { Navegador } from "../navigate/navigate";
 import type { Pessoa } from "../types";
 
+// ─── PessoaProxy ───────────────────────────────────────────────────────────────────
+// Responsável pelas chamadas HTTP do CRUD de pessoas
+
 export const PessoaProxy = {
     consultar: (): Promise<Pessoa[]> => {
         return Navegador.get<Pessoa[]>("/pessoa/consultar");

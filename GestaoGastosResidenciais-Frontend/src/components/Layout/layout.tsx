@@ -22,7 +22,7 @@ interface SecaoMenu {
   itens: ItemMenu[];
 }
 
-// ─── Sessões ───────────────────────────────────────────────────────────────────
+// ─── Menus ───────────────────────────────────────────────────────────────────
 // Aqui fica as abas de navegação de cada página
 
 const SECOES: SecaoMenu[] = [

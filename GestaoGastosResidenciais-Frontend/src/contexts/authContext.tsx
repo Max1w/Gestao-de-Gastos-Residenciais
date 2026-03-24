@@ -14,6 +14,10 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
+// ─── Contexto ───────────────────────────────────────────────────────────────────
+// Este arquivo tem a função de implementar o contexto de autenticação.
+// Gerenciando o estado do usuário logado.
+
 export function ProvedorAutenticacao({ children }: { children: ReactNode }) {
 
     const [usuario, setUsuario] = useState<LoginResponse | null>(() => {

@@ -34,6 +34,9 @@ const finalidadeLabelMap: Record<FinalidadeCategoria, string> = {
 };
 const estadoInicial = { descricao: "", finalidade: 3 as FinalidadeCategoria };
 
+// ─── Sessões ───────────────────────────────────────────────────────────────────
+// Este arquivo é onde fica a interface da tela de Cadastro de Categoria e suas functions
+
 export function Categoria() {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [modalAberto, setModalAberto] = useState(false);
@@ -42,6 +45,7 @@ export function Categoria() {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
+  // Busca todas as categorias da API
   async function carregar() {
     try {
       const dados = await CategoriaService.consultar();
@@ -51,8 +55,10 @@ export function Categoria() {
     }
   }
 
+  // Executa carregar() assim que o componente é montado
   useEffect(() => { carregar(); }, []);
 
+  // Abre o modal para cadastrar uma nova categoria
   function abrirNovo() {
     setEditando(null);
     setFormulario(estadoInicial);
@@ -60,6 +66,7 @@ export function Categoria() {
     setModalAberto(true);
   }
 
+  // Abre o modal preenchido com os dados da categoria para edição
   function abrirEdicao(categoria: Categoria) {
     setEditando(categoria);
     setFormulario({ descricao: categoria.descricao, finalidade: categoria.finalidade });
@@ -67,11 +74,13 @@ export function Categoria() {
     setModalAberto(true);
   }
 
+  // Fecha o modal
   function fecharModal() {
     setModalAberto(false);
     setErro("");
   }
 
+  // Salva o formulário: cadastra uma nova ou atualiza a existente
   async function salvar() {
     if (!formulario.descricao.trim()) return;
     setCarregando(true);
@@ -92,6 +101,7 @@ export function Categoria() {
     }
   }
 
+  // Pede confirmação e remove
   async function remover(id: number) {
     if (!confirm("Deseja remover esta categoria?")) return;
     try {
@@ -102,6 +112,8 @@ export function Categoria() {
     }
   }
 
+  // Retorna a classe CSS do badge de acordo com a finalidade
+  // (despesa, receita ou ambas)
   function badgeClass(finalidade: FinalidadeCategoria) {
     if (finalidade === 1) return "badge badge-despesa";
     if (finalidade === 2) return "badge badge-receita";

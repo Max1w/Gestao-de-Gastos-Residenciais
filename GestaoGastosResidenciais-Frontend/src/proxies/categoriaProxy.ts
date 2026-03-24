@@ -1,6 +1,9 @@
 import { Navegador } from "../navigate/navigate";
 import type { Categoria } from "../types";
 
+// ─── CategoriaProxy ───────────────────────────────────────────────────────────────────
+// Responsável pelas chamadas HTTP do CRUD de categorias
+
 export const CategoriaProxy = {
     consultar: (): Promise<Categoria[]> => {
         return Navegador.get<Categoria[]>("/categoria/consultar");

@@ -23,21 +23,27 @@ const estilos = `
   .msg-erro { color: #dc2626; font-size: 0.875rem; padding: 1rem; text-align: center; }
 `;
 
+// Formata um número como moeda brasileira (R$ 1.234,56)
 function formatarValor(valor: number) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+// Formata o saldo, adicionando "–" na frente quando negativo
 function formatarSaldo(valor: number) {
   return valor < 0
     ? `– ${formatarValor(Math.abs(valor))}`
     : formatarValor(valor);
 }
 
+// ─── TotaisPorCategoria ───────────────────────────────────────────────────────────────────
+// Aqui é a tela de Totais por categoria, onde fica sua estilização, html e suas functions
+
 export function TotaisPorCategoria() {
   const [totais, setTotais] = useState<TotalPorCategoria[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
 
+  // Busca os totais por categoria ao montar o componente
   useEffect(() => {
     async function carregar() {
       try {
@@ -52,9 +58,9 @@ export function TotaisPorCategoria() {
     carregar();
   }, []);
 
-  const totalReceita = totais.reduce((s, t) => s + t.totalReceita, 0);
-  const totalDespesa = totais.reduce((s, t) => s + t.totalDespesa, 0);
-  const saldoGeral = totalReceita - totalDespesa;
+  const totalReceita = totais.reduce((s, t) => s + t.totalReceita, 0); // Soma todas as receitas
+  const totalDespesa = totais.reduce((s, t) => s + t.totalDespesa, 0); // Soma todas as despesas
+  const saldoGeral = totalReceita - totalDespesa; // Saldo geral (receitas - despesas)
 
   return (
     <>

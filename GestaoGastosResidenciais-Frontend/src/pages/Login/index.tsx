@@ -84,6 +84,9 @@ const css = `
   }
 `;
 
+// ─── Login ───────────────────────────────────────────────────────────────────
+// Aqui é a tela de login, onde fica sua estilização, html e suas functions
+
 export function Login() {
     const [usuario, setUsuario] = useState("");
     const [senha, setSenha]     = useState("");
@@ -95,13 +98,16 @@ export function Login() {
     const navigate = useNavigate();     
     const { login } = usarAutenticacao();
 
+     // Abre o modal de cadastro
     const abrirModal = () => setModalAberto(true);
 
+    // Fecha o modal
     const fecharModal = () => {
       setModalAberto(false);
       setCadastro({ nome: "", senha: "" });
     };
 
+    // Valida e envia o cadastro de um novo usuário
     const salvarCadastro = () => {
         if (!cadastro.nome || !cadastro.senha) {
           alert("Preencha todos os campos.");
@@ -118,6 +124,8 @@ export function Login() {
         fecharModal();
       };
 
+    // Valida os campos, autentica o usuário na API e redireciona para a visão geral
+    // Em caso de erro, exibe a mensagem de credenciais inválidas
     function handleLogin() {
         setErro("");
 

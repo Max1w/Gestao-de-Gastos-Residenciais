@@ -39,6 +39,9 @@ const estadoInicial = {
   idPessoa: 0,
 };
 
+// ─── Transacao ───────────────────────────────────────────────────────────────────
+// Aqui é a tela de Cadastro de Transacao, onde fica sua estilização, html e suas functions
+
 export function Transacao() {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
@@ -55,6 +58,7 @@ export function Transacao() {
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState("");
 
+  // Busca transações, pessoas e categorias em paralelo e atualiza o estado
   async function carregar() {
     try {
       const [t, p, c] = await Promise.all([
@@ -70,13 +74,16 @@ export function Transacao() {
     }
   }
 
+  // Executa carregar() assim que o componente é montado
   useEffect(() => { carregar(); }, []);
 
+  // Filtra as categorias compatíveis com o tipo da transação (despesa, receita ou ambas)
   const categoriasFiltradas = categorias.filter(c =>
     c.finalidade === FinalidadeCategoria.Ambas ||
     c.finalidade === (formulario.tipo === TipoTransacao.Despesa ? FinalidadeCategoria.Despesa : FinalidadeCategoria.Receita)
   );
 
+  // Abre o modal limpo para cadastrar uma nova transação
   function abrirNovo() {
     setEditando(null);
     setFormulario(estadoInicial);
@@ -84,6 +91,7 @@ export function Transacao() {
     setModalAberto(true);
   }
 
+  // Abre o modal preenchido com os dados da transação para edição
   function abrirEdicao(t: Transacao) {
     setEditando(t);
     setFormulario({
@@ -97,15 +105,18 @@ export function Transacao() {
     setModalAberto(true);
   }
 
+  // Fecha o modal
   function fecharModal() {
     setModalAberto(false);
     setErro("");
   }
 
+  // Atualiza o tipo da transação e reseta a categoria (pois muda as opções disponíveis)
   function handleTipoChange(tipo: Transacao["tipo"]) {
     setFormulario(f => ({ ...f, tipo, idCategoria: 0 }));
   }
 
+  // Salva o formulário: cadastra nova ou atualiza existente
   async function salvar() {
     if (!formulario.descricao.trim() || !formulario.valor || !formulario.idCategoria || !formulario.idPessoa) return;
     setCarregando(true);
@@ -133,6 +144,7 @@ export function Transacao() {
     }
   }
 
+  // Pede confirmação e remove a transação da API e da lista local
   async function remover(id: number) {
     if (!confirm("Deseja remover esta transação?")) return;
     try {
@@ -143,14 +155,17 @@ export function Transacao() {
     }
   }
 
+  // Retorna o nome da pessoa pelo id
   function nomePessoa(id: number) {
     return pessoas.find(p => p.id === id)?.nome ?? String(id);
   }
 
+  // Retorna o nome da categoria pelo id
   function nomeCategoria(id: number) {
     return categorias.find(c => c.id === id)?.descricao ?? String(id);
   }
 
+  // Formata um número como moeda brasileira (R$ 1.234,56)
   function formatarValor(valor: number) {
     return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }

@@ -5,6 +5,11 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// ─── Navegador ───────────────────────────────────────────────────────────────────
+// Este arquivo é o client HTTP, onde fica centralizado todas as requisições que o
+// frontend pode fazer para o backend
+
+
 export const Navegador = {
     
     get: async <T>( url: string, params?: Record<string, any>, headers?: Record<string, string>
