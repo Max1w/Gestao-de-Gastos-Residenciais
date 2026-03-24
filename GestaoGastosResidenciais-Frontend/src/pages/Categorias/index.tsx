@@ -79,8 +79,16 @@ export function Categoria() {
       const nova = await CategoriaService.cadastrar({ descricao: formulario.descricao.trim(), finalidade: formulario.finalidade });
       setCategorias(c => [...c, nova]);
       fecharModal();
-    } catch {
-      setErro("Erro ao salvar. Tente novamente.");
+    } catch(erro: any) {
+      const mensagem =
+              erro?.response?.data?.mensagem ||
+              erro?.response?.data?.message ||
+              erro?.response?.data?.errors?.Descricao ||
+              erro?.response?.data?.errors?.Finalidade ||
+              erro?.message ||
+              "Erro ao salvar. Tente novamente.";
+              
+      setErro(mensagem);
     } finally {
       setCarregando(false);
     }

@@ -7,7 +7,7 @@ namespace GestaoGastosResidenciais.Aplicacao.DTOs.Pessoa
         public int Id { get; set; }
 
 		[Required(ErrorMessage = "O nome é obrigatório.")]
-		[MaxLength(200, ErrorMessage = "O nome deve ter no máximo 200 caracteres.")]
+		[MaxLength(200, ErrorMessage = "A descrição deve ter no máximo 200 caracteres.")]
 		public string? Nome { get; set; }
 
 		[Required(ErrorMessage = "A idade é obrigatória.")]

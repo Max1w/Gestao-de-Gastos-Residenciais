@@ -85,15 +85,23 @@ export function Pessoa() {
     setErro("");
     try {
       if (editando) {
-        const atualizada = await PessoaService.alterar({ ...editando, nome: formulario.nome.trim(), idade: Number(formulario.idade) });
+        const atualizada = await PessoaService.alterar({ ...editando, nome: formulario.nome.trim(), idade: Number(formulario.idade) })
         setPessoas(p => p.map(x => x.id === atualizada.id ? atualizada : x));
       } else {
         const nova = await PessoaService.cadastrar({ nome: formulario.nome.trim(), idade: Number(formulario.idade) });
         setPessoas(p => [...p, nova]);
       }
       fecharModal();
-    } catch {
-      setErro("Erro ao salvar. Tente novamente.");
+    } catch(erro: any) {
+      const mensagem =
+              erro?.response?.data?.mensagem ||
+              erro?.response?.data?.message ||
+              erro?.response?.data?.errors?.Nome ||
+              erro?.response?.data?.errors?.Idade ||
+              erro?.message ||
+              "Erro ao salvar. Tente novamente.";
+              
+      setErro(mensagem);
     } finally {
       setCarregando(false);
     }

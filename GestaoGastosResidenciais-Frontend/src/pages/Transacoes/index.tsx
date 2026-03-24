@@ -128,8 +128,19 @@ export function Transacao() {
       const nova = await TransacaoService.cadastrar(payload);
       setTransacoes(t => [...t, nova]);
       fecharModal();
-    } catch (e: any) {
-      setErro(e?.message ?? "Erro ao salvar. Tente novamente.");
+    } catch(erro: any) {
+      const mensagem =
+              erro?.response?.data?.mensagem ||
+              erro?.response?.data?.message ||
+              erro?.response?.data?.errors?.Descricao ||
+              erro?.response?.data?.errors?.Valor ||
+              erro?.response?.data?.errors?.Tipo ||
+              erro?.response?.data?.errors?.CategoriaId ||
+              erro?.response?.data?.errors?.PessoaId ||
+              erro?.message ||
+              "Erro ao salvar. Tente novamente.";
+              
+      setErro(mensagem);
     }finally {
       setCarregando(false);
     }

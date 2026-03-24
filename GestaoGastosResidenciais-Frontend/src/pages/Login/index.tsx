@@ -128,6 +128,7 @@ export function Login() {
             const mensagem =
               erro?.response?.data?.mensagem ||
               erro?.response?.data?.message ||
+              erro?.response?.data?.errors?.Usuario ||
               erro?.message ||
               "Erro ao cadastrar";
 
