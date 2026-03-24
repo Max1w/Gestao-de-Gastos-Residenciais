@@ -2,7 +2,10 @@
 
 namespace GestaoGastosResidenciais.IoC.Configuracoes
 {
-    public static class ConfiguracaoCors
+	// ─── ConfiguracaoCors ───────────────────────────────────────────────────────────────────
+	// Configura a política de CORS permitindo requisições do frontend
+
+	public static class ConfiguracaoCors
     {
         public static IServiceCollection AddPoliticaCors(
 			this IServiceCollection services)

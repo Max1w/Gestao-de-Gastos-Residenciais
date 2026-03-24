@@ -6,6 +6,9 @@ namespace GestaoGastosResidenciais.IoC.Configuracoes
 {
     public static class ConfiguracaoRepositorio
     {
+		// ─── ConfiguracaoRepositorio ───────────────────────────────────────────────────────────────────
+		// Registra o repositório genérico para todas as entidades do sistema
+
 		public static IServiceCollection AddRepositios(
 			this IServiceCollection services)
 		{

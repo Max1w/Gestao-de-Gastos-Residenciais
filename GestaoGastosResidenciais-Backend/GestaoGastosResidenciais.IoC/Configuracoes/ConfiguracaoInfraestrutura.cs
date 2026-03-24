@@ -5,7 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GestaoGastosResidenciais.IoC.Configuracoes
 {
-    public static class ConfiguracaoInfraestrutura
+	// ─── ConfiguracaoInfraestrutura ───────────────────────────────────────────────────────────────────
+	// Configura o contexto do Entity Framework com SQL Server
+
+	public static class ConfiguracaoInfraestrutura
     {
         public static IServiceCollection AddInfraestrutura(
             this IServiceCollection services,

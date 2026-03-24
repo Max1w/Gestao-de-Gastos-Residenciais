@@ -10,7 +10,10 @@ using System.Text;
 
 namespace GestaoGastosResidenciais.IoC.Configuracoes
 {
-    public static class ConfiguracaoSeguranca
+	// ─── ConfiguracaoSeguranca ───────────────────────────────────────────────────────────────────
+	// Configura autenticação JWT, leitura do token via cookie e registra os serviços de segurança
+
+	public static class ConfiguracaoSeguranca
     {
         public static IServiceCollection AddSeguranca(
             this IServiceCollection services,

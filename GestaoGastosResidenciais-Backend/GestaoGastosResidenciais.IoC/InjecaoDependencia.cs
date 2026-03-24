@@ -4,7 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GestaoGastosResidenciais.IoC
 {
-    public static class InjecaoDependencia
+	// ─── InjecaoDependencia ───────────────────────────────────────────────────────────────────
+	// Ponto central de registro de todas as dependências da aplicação
+	// Chamado no Program.cs para configurar o container de DI
+
+	public static class InjecaoDependencia
     {
         public static IServiceCollection AddInjecaoDependencia(
             this IServiceCollection services, 
